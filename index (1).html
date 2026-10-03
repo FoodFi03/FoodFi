@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FoodFi · Every dish in the world, one token each</title>
+<meta name="description" content="Every dish in the world. One token each. Launch dish tokens on Robinhood Chain.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20120%20120%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20%3E%0A%20%20%3Ccircle%20cx%3D%2260%22%20cy%3D%2260%22%20r%3D%2257%22%20fill%3D%22%23B3261E%22/%3E%0A%20%20%3Ccircle%20cx%3D%2260%22%20cy%3D%2260%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23F2C14E%22%20stroke-width%3D%223%22%20stroke-dasharray%3D%223%205%22/%3E%0A%20%20%3Ccircle%20cx%3D%2260%22%20cy%3D%2260%22%20r%3D%2243%22%20fill%3D%22%23F2C14E%22/%3E%0A%20%20%3Ccircle%20cx%3D%2260%22%20cy%3D%2260%22%20r%3D%2231%22%20fill%3D%22none%22%20stroke%3D%22%2320160F%22%20stroke-width%3D%222.5%22%20opacity%3D%22.25%22/%3E%0A%20%20%3Cpath%20d%3D%22M35%2060h50a25%2025%200%200%201-50%200z%22%20fill%3D%22%2320160F%22/%3E%0A%20%20%3Crect%20x%3D%2231%22%20y%3D%2257%22%20width%3D%2258%22%20height%3D%225%22%20rx%3D%222.5%22%20fill%3D%22%2320160F%22/%3E%0A%20%20%3Cpath%20d%3D%22M48%2050c-4-5%204-8%200-14M60%2050c-4-5%204-8%200-14M72%2050c-4-5%204-8%200-14%22%20fill%3D%22none%22%20stroke%3D%22%23B3261E%22%20stroke-width%3D%223.5%22%20stroke-linecap%3D%22round%22/%3E%0A%20%20%3Ccircle%20cx%3D%2260%22%20cy%3D%2272%22%20r%3D%225%22%20fill%3D%22%23F2C14E%22/%3E%0A%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --turmeric:#F2C14E; --chili:#B3261E; --pandan:#2E6B3F; --soy:#20160F;
+  --bg:#FCEFC7; --surface:#FFFAEB; --ink:#20160F; --muted:#6A5634; --line:#E6CF8E; --open:#2E6B3F; --taken:#B3261E;
+  --font:"Bricolage Grotesque","Segoe UI",system-ui,-apple-system,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#17120C;--surface:#231C13;--ink:#F6E7C1;--muted:#BFA77A;--line:#3A2F20;--open:#7CC48E;--taken:#F0705F}
+}
+:root[data-theme="dark"]{--bg:#17120C;--surface:#231C13;--ink:#F6E7C1;--muted:#BFA77A;--line:#3A2F20;--open:#7CC48E;--taken:#F0705F}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 190px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--turmeric);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.btn{border:0;background:var(--turmeric);color:var(--soy);padding:11px 20px;border-radius:999px;font-weight:800;cursor:pointer;white-space:nowrap}
+.btn:hover{filter:brightness(1.05)}
+.btn.dark{background:var(--soy);color:var(--turmeric)}
+.btn.ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ===== HERO (always dark) ===== */
+.hero{background:var(--soy);color:#F6E7C1;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:22px;background:radial-gradient(circle at 11px 0,transparent 11px,var(--bg) 11.5px) 0 0/22px 22px repeat-x}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.brand svg{width:46px;height:46px;flex:none}
+.wordmark{line-height:.95}
+.wordmark small{display:block;font-size:.8rem;font-weight:600;color:var(--turmeric)}
+.wordmark b{font-size:1.6rem;font-weight:800;letter-spacing:-.03em}
+.wordmark em{font-style:normal;color:var(--turmeric)}
+footer .wordmark em{color:var(--chili)}
+.nav{display:flex;gap:20px;align-items:center}
+.nav a{color:inherit;text-decoration:none;font-weight:600;opacity:.85}
+.nav a:hover{opacity:1}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:30px 0 80px}
+.hero h1{font-size:clamp(2.6rem,6vw,4.9rem);line-height:.92;font-weight:800;letter-spacing:-.035em;margin:0 0 22px}
+.hero h1 span{display:block;color:var(--turmeric)}
+.hero p{font-size:1.18rem;max-width:46ch;margin:0 0 28px;color:#D9C69C}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.tally{display:flex;gap:34px;flex-wrap:wrap;margin-top:38px;color:#D9C69C;font-weight:600}
+.tally b{display:block;font-size:2rem;line-height:1;color:#F6E7C1}
+
+/* the one memorable thing: the plate with dishes orbiting */
+.stagewrap{display:flex;flex-direction:column;align-items:center}
+.stage{position:relative;aspect-ratio:1;width:min(400px,100%);margin:0 auto}
+.stage .big{position:absolute;inset:18%;filter:drop-shadow(0 18px 30px rgba(0,0,0,.45))}
+.stage .big svg{width:100%;height:100%}
+.orbit{position:absolute;inset:0;border-radius:50%;border:2px dashed rgba(242,193,78,.35)}
+.orbit>span{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px;display:grid;place-items:center;font-size:1.8rem;background:#2E2417;border:2px solid rgba(242,193,78,.5);border-radius:50%;
+  transform:rotate(var(--a)) translate(calc(min(400px,100vw - 40px) / 2 - 6px)) rotate(calc(-1 * var(--a)))}
+@media (prefers-reduced-motion:no-preference){
+  .orbit{animation:spin 60s linear infinite}
+  .orbit>span{animation:counter 60s linear infinite}
+  @keyframes spin{to{rotate:360deg}}
+  @keyframes counter{to{rotate:-360deg}}
+}
+.special{position:relative;margin:18px auto 0;width:100%;background:var(--surface);color:var(--ink);border-radius:18px;padding:12px 16px;box-shadow:0 12px 30px rgba(0,0,0,.35);display:flex;gap:12px;align-items:center;max-width:320px;cursor:pointer;border:0;text-align:left}
+.special .em{flex:none;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--turmeric);font-size:1.9rem}
+.special small{display:block;color:var(--muted);font-weight:600;font-size:.8rem}
+.special b{display:block;line-height:1.15}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr;padding-bottom:70px}.stage{width:min(340px,86vw)}.orbit>span{transform:rotate(var(--a)) translate(calc(min(340px,86vw) / 2 - 6px)) rotate(calc(-1 * var(--a)));width:46px;height:46px;margin:-23px;font-size:1.4rem}.nav a{display:none}}
+
+/* ===== Recently claimed strip ===== */
+.claimed[hidden]{display:none}
+.claimed{display:flex;gap:10px;overflow-x:auto;padding:26px 0 10px;scrollbar-width:none}
+.claimed::-webkit-scrollbar{display:none}
+.claimed .lbl{flex:none;font-weight:800;align-self:center;margin-right:4px}
+.tok{flex:none;display:flex;align-items:center;gap:8px;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:6px 14px 6px 6px;cursor:pointer;font-weight:600}
+.tok i{font-style:normal;width:32px;height:32px;border-radius:50%;background:var(--turmeric);display:grid;place-items:center;font-size:1.05rem}
+.tok b{color:var(--taken)}
+
+/* ===== Controls ===== */
+.controls{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:14px 0 10px;display:grid;grid-template-columns:1fr 260px auto;gap:10px;align-items:stretch;border-bottom:2px solid var(--line)}
+.controls>*{min-height:50px}
+.az{grid-column:1/-1;display:flex;gap:2px;overflow-x:auto}
+.az a{flex:1 0 auto;min-width:26px;text-align:center;padding:4px 0;border-radius:8px;font-weight:800;font-size:.85rem;text-decoration:none;color:var(--ink)}
+.az a:hover{background:var(--turmeric);color:var(--soy)}
+.az a.off{opacity:.25;pointer-events:none}
+.field{width:100%;padding:13px 18px;border:2px solid var(--line);border-radius:14px;background:var(--surface);font-weight:600}
+.field:focus{border-color:var(--ink);outline:none}
+.toggle{display:flex;align-items:stretch;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:4px}
+.toggle button{border:0;background:none;padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+@media (max-width:760px){.controls{grid-template-columns:1fr;position:static}.toggle button{flex:1}html{scroll-padding-top:12px}}
+@media (max-width:520px){.tiles{grid-template-columns:1fr}}
+
+/* ===== Country cards ===== */
+.board{padding:8px 0 30px}
+.country{display:grid;grid-template-columns:240px 1fr;gap:20px;align-items:start;padding:20px 0;border-bottom:2px dashed var(--line)}
+.country:last-child{border-bottom:0}
+.letter{font-size:2.4rem;font-weight:800;color:var(--chili);margin:30px 0 0;line-height:1;padding-bottom:8px;border-bottom:3px solid var(--chili)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+@media (max-width:760px){.country{grid-template-columns:1fr;gap:12px}}
+.ch{display:flex;align-items:center;gap:12px;min-height:64px}
+.ch .flag{font-size:2.2rem;line-height:1}
+.ch h2{margin:0;font-size:1.35rem;line-height:1.1;letter-spacing:-.01em}
+.ch small{color:var(--muted);font-weight:600}
+.dish{display:flex;align-items:center;gap:12px;width:100%;height:64px;padding:0 12px;border:2px solid var(--line);background:var(--surface);text-align:left;cursor:pointer;border-radius:16px}
+.dish:hover{border-color:var(--ink)}
+.plate{flex:none;width:44px;height:44px;font-size:1.4rem;border-radius:50%;display:grid;place-items:center;font-size:1.3rem;background:var(--bg);box-shadow:inset 0 0 0 2px var(--line)}
+.dname{flex:1;font-weight:600;min-width:0;line-height:1.2;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pill{flex:none;font-size:.82rem;font-weight:800;padding:4px 11px;border-radius:999px}
+.pill.open{color:var(--open);box-shadow:inset 0 0 0 2px var(--open)}
+.pill.taken{background:var(--taken);color:#FFF6DA}
+.empty{text-align:center;color:var(--muted);padding:50px 0;font-size:1.1rem}
+
+/* ===== How it works ===== */
+.how{background:var(--turmeric);color:var(--soy);border-radius:28px;padding:40px 34px;margin:20px 0 40px}
+.how h2{margin:0 0 24px;font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-.02em}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:24px}
+.steps .n{width:44px;height:44px;border-radius:50%;background:var(--soy);color:var(--turmeric);display:grid;place-items:center;font-weight:800;font-size:1.2rem}
+.steps h3{margin:12px 0 4px}
+.steps p{margin:0;color:#4A3818}
+footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;padding:24px 0 44px;color:var(--muted);font-size:.92rem;border-top:2px solid var(--line)}
+footer .brand svg{width:32px;height:32px}
+
+/* ===== Profile ===== */
+.navbtn{display:inline-flex;align-items:center;gap:8px;position:relative}
+.badge[hidden]{display:none}
+.badge{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--chili);color:#FFF6DA;font-size:.75rem;display:inline-grid;place-items:center}
+#walletBtn{max-width:46vw;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:420px){#walletBtn{font-size:.88rem}.wordmark b{font-size:1.25rem}.brand svg{width:38px;height:38px}.nav{gap:8px}}
+@media (max-width:560px){.navbtn span{display:none}.navbtn{padding:11px 13px}#walletBtn{padding:11px 14px}}
+.avatar{flex:none;width:58px;height:58px;border-radius:50%;box-shadow:0 0 0 3px var(--turmeric)}
+.phead{display:flex;gap:14px;align-items:center}
+.phead .addr{font-weight:800;font-size:1.25rem;letter-spacing:-.01em;word-break:break-all}
+.phead small{color:var(--muted);font-weight:600}
+.ptabs{display:flex;background:var(--bg);border-radius:14px;padding:4px;margin:18px 0 12px}
+.ptabs button{flex:1;border:0;background:none;padding:9px;border-radius:10px;font-weight:800;cursor:pointer}
+.ptabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.pstats{display:flex;gap:10px;margin-bottom:6px}
+.pstats div{flex:1;background:var(--bg);border-radius:14px;padding:10px 12px;font-weight:600;color:var(--muted);font-size:.85rem}
+.pstats b{display:block;font-size:1.5rem;color:var(--ink);line-height:1.1}
+.plist{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.prow{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:var(--bg);border:2px solid transparent;border-radius:16px;padding:12px;cursor:pointer}
+.prow:hover{border-color:var(--ink)}
+.prow .plate{width:46px;height:46px}
+.prow .pmain{flex:1;min-width:0}
+.prow .ptk{font-weight:800;color:var(--taken)}
+.prow .pname{font-weight:800}
+.prow .pmeta{color:var(--muted);font-size:.82rem;font-weight:600}
+.prow .plore{font-size:.88rem;margin-top:4px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pempty{text-align:center;padding:26px 10px;color:var(--muted)}
+.pempty b{display:block;color:var(--ink);font-size:1.1rem;margin-bottom:4px}
+.pempty .btn{margin-top:14px}
+
+/* ===== Sheet ===== */
+dialog{border:0;border-radius:26px;background:var(--surface);color:var(--ink);padding:0;width:min(520px,94vw);max-height:90vh;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(23,18,12,.7)}
+.sheet{padding:24px;overflow:auto}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.sheet h2{margin:2px 0 0;font-size:1.9rem;line-height:1.05;letter-spacing:-.02em}
+.sheet .from{color:var(--muted);font-weight:600}
+.close{border:0;background:var(--bg);width:38px;height:38px;border-radius:50%;font-size:1.4rem;cursor:pointer;line-height:1}
+.coin{display:flex;gap:18px;align-items:center;background:var(--soy);color:#F6E7C1;border-radius:20px;padding:18px;margin:18px 0}
+.coin .face{flex:none;width:84px;height:84px;border-radius:50%;background:var(--turmeric);display:grid;place-items:center;font-size:2.6rem;box-shadow:0 0 0 5px var(--chili),0 0 0 8px var(--turmeric)}
+.coin .tk{font-weight:800;font-size:1.6rem;color:var(--turmeric);line-height:1}
+.coin .lore{color:#D9C69C;font-size:.92rem;margin-top:6px}
+.coin .fee{display:inline-block;margin-top:8px;font-size:.78rem;font-weight:800;background:var(--chili);color:#FFF6DA;border-radius:999px;padding:2px 10px}
+label{display:block;font-weight:800;margin:14px 0 6px}
+input[type=text],textarea{width:100%;padding:11px 14px;border:2px solid var(--line);border-radius:12px;background:var(--bg)}
+input[type=text]:focus,textarea:focus{border-color:var(--ink);outline:none}
+textarea{min-height:104px;resize:vertical}
+.lore-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.shuffle{border:0;background:none;color:var(--taken);font-weight:800;cursor:pointer;padding:14px 0 6px;text-decoration:underline;text-underline-offset:3px}
+.hint{font-size:.85rem;color:var(--muted);margin-top:6px}
+.actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--soy);color:var(--turmeric);padding:12px 20px;border-radius:999px;font-weight:800;display:none;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+@media (prefers-reduced-motion:no-preference){dialog[open]{animation:pop .2s ease-out}@keyframes pop{from{transform:translateY(12px) scale(.97);opacity:0}}}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="wrap">
+    <header>
+      <a class="brand" href="#"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FoodFi logo">
+  <circle cx="60" cy="60" r="57" fill="#B3261E"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#F2C14E" stroke-width="3" stroke-dasharray="3 5"/>
+  <circle cx="60" cy="60" r="43" fill="#F2C14E"/>
+  <circle cx="60" cy="60" r="31" fill="none" stroke="#20160F" stroke-width="2.5" opacity=".25"/>
+  <path d="M35 60h50a25 25 0 0 1-50 0z" fill="#20160F"/>
+  <rect x="31" y="57" width="58" height="5" rx="2.5" fill="#20160F"/>
+  <path d="M48 50c-4-5 4-8 0-14M60 50c-4-5 4-8 0-14M72 50c-4-5 4-8 0-14" fill="none" stroke="#B3261E" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="60" cy="72" r="5" fill="#F2C14E"/>
+</svg><span class="wordmark"><b>Food<em>Fi</em></b></span></a>
+      <nav class="nav">
+        <a href="#menu">Menu</a>
+        <a href="#how">How it works</a>
+        <button class="btn ghost navbtn" id="profileBtn" aria-label="Profile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Profile</span><b class="badge" id="profileCount" hidden></b></button>
+        <button class="btn" id="walletBtn">Connect wallet</button>
+      </nav>
+    </header>
+    <div class="hero-grid">
+      <div>
+        <h1>Every dish in the world.<span>One token each.</span></h1>
+        <p>Pick a dish from the world menu, give it a ticker and lore, then launch its token on Robinhood Chain. You earn 1% of every trade.</p>
+        <div class="cta">
+          <a class="btn" href="#menu" style="text-decoration:none">Browse the menu</a>
+          <button class="btn ghost" id="surprise">Surprise me</button>
+        </div>
+        <div class="tally">
+          <div><b id="tTotal">0</b>dishes</div>
+          <div><b id="tCountries">0</b>countries</div>
+          <div><b id="tTaken">0</b>claimed</div>
+        </div>
+      </div>
+      <div class="stagewrap">
+      <div class="stage">
+        <div class="orbit" id="orbit"></div>
+        <div class="big"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FoodFi logo">
+  <circle cx="60" cy="60" r="57" fill="#B3261E"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#F2C14E" stroke-width="3" stroke-dasharray="3 5"/>
+  <circle cx="60" cy="60" r="43" fill="#F2C14E"/>
+  <circle cx="60" cy="60" r="31" fill="none" stroke="#20160F" stroke-width="2.5" opacity=".25"/>
+  <path d="M35 60h50a25 25 0 0 1-50 0z" fill="#20160F"/>
+  <rect x="31" y="57" width="58" height="5" rx="2.5" fill="#20160F"/>
+  <path d="M48 50c-4-5 4-8 0-14M60 50c-4-5 4-8 0-14M72 50c-4-5 4-8 0-14" fill="none" stroke="#B3261E" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="60" cy="72" r="5" fill="#F2C14E"/>
+</svg></div>
+      </div>
+        <button class="special" id="special"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="claimed" id="claimedStrip"></div>
+
+  <div class="controls" id="menu">
+    <input class="field" id="q" type="search" placeholder="Search dishes or countries" aria-label="Search dishes">
+    <select class="field" id="country" aria-label="Filter by country"></select>
+    <div class="toggle" role="group" aria-label="Show">
+      <button data-s="all" aria-pressed="true">All</button>
+      <button data-s="open" aria-pressed="false">Open</button>
+      <button data-s="taken" aria-pressed="false">Claimed</button>
+    </div>
+    <nav class="az" id="az" aria-label="Jump to letter"></nav>
+  </div>
+
+  <main class="board" id="board"></main>
+
+  <section class="how" id="how">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div><div class="n">1</div><h3>Pick a dish</h3><p>Search the menu or pick a country. Open dishes can be claimed.</p></div>
+      <div><div class="n">2</div><h3>Set ticker and lore</h3><p>The dish icon becomes the token logo.</p></div>
+      <div><div class="n">3</div><h3>Launch the token</h3><p>One transaction from your wallet on Robinhood Chain. We never hold funds.</p></div>
+      <div><div class="n">4</div><h3>Earn 1% of trades</h3><p>The creator fee on every trade goes to the wallet that launched.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <a class="brand" href="#"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FoodFi logo">
+  <circle cx="60" cy="60" r="57" fill="#B3261E"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#F2C14E" stroke-width="3" stroke-dasharray="3 5"/>
+  <circle cx="60" cy="60" r="43" fill="#F2C14E"/>
+  <circle cx="60" cy="60" r="31" fill="none" stroke="#20160F" stroke-width="2.5" opacity=".25"/>
+  <path d="M35 60h50a25 25 0 0 1-50 0z" fill="#20160F"/>
+  <rect x="31" y="57" width="58" height="5" rx="2.5" fill="#20160F"/>
+  <path d="M48 50c-4-5 4-8 0-14M60 50c-4-5 4-8 0-14M72 50c-4-5 4-8 0-14" fill="none" stroke="#B3261E" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="60" cy="72" r="5" fill="#F2C14E"/>
+</svg><span class="wordmark"><b>Food<em>Fi</em></b></span></a>
+    <span>Demo template. On-chain launch is not connected yet; see <code>launchToken()</code> in the code.</span>
+  </footer>
+</div>
+
+<dialog id="sheet" aria-labelledby="dName">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div><div class="from" id="dOrigin"></div><h2 id="dName"></h2></div>
+      <button class="close" id="dClose" aria-label="Close">×</button>
+    </div>
+    <div class="coin">
+      <div class="face" id="dPlate"></div>
+      <div><div class="tk" id="dTicker"></div><div class="lore" id="dLorePrev">No lore yet.</div><span class="fee">1% creator fee</span></div>
+    </div>
+    <div id="dForm">
+      <label for="fTicker">Ticker</label>
+      <input type="text" id="fTicker" maxlength="8" autocomplete="off">
+      <div class="hint">2–8 letters or numbers, no spaces.</div>
+      <div class="lore-head"><label for="fLore">Lore</label><button type="button" class="shuffle" id="fShuffle">Write another</button></div>
+      <textarea id="fLore" maxlength="280" placeholder="Why does this dish deserve a token?"></textarea>
+      <div class="actions">
+        <button class="btn dark" id="fLaunch">Launch token</button>
+        <button class="btn ghost" id="fCancel">Cancel</button>
+      </div>
+    </div>
+    <div id="dTaken" hidden>
+      <p>This dish was claimed by <b id="dOwner"></b>.</p>
+      <div class="actions"><button class="btn dark" id="fTrade">View on Pons</button></div>
+    </div>
+  </div>
+</dialog>
+<dialog id="profile" aria-labelledby="pTitle">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div class="phead" id="pHead"></div>
+      <button class="close" id="pClose" aria-label="Close">×</button>
+    </div>
+    <div class="ptabs" role="group" aria-label="Claims to show">
+      <button data-t="mine" aria-pressed="true">My claims</button>
+      <button data-t="all" aria-pressed="false">All claims</button>
+    </div>
+    <div class="pstats" id="pStats"></div>
+    <div class="plist" id="pList"></div>
+    <div class="actions" id="pActions"></div>
+  </div>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ====== DISHES: edit / add dishes here ====== */
+const DISHES = [
+  ["Rendang","Indonesia","🇮🇩","Asia","🥘"],["Nasi Goreng","Indonesia","🇮🇩","Asia","🍛"],["Sate","Indonesia","🇮🇩","Asia","🍢"],["Gado-gado","Indonesia","🇮🇩","Asia","🥗"],
+  ["Sushi","Japan","🇯🇵","Asia","🍣"],["Ramen","Japan","🇯🇵","Asia","🍜"],["Tempura","Japan","🇯🇵","Asia","🍤"],["Bibimbap","South Korea","🇰🇷","Asia","🍲"],
+  ["Kimchi","South Korea","🇰🇷","Asia","🥬"],["Pho","Vietnam","🇻🇳","Asia","🍜"],["Banh Mi","Vietnam","🇻🇳","Asia","🥖"],["Pad Thai","Thailand","🇹🇭","Asia","🍝"],
+  ["Tom Yum","Thailand","🇹🇭","Asia","🍲"],["Dim Sum","China","🇨🇳","Asia","🥟"],["Peking Duck","China","🇨🇳","Asia","🦆"],["Biryani","India","🇮🇳","Asia","🍛"],
+  ["Butter Chicken","India","🇮🇳","Asia","🍗"],["Adobo","Philippines","🇵🇭","Asia","🍖"],["Nasi Lemak","Malaysia","🇲🇾","Asia","🍚"],["Momo","Nepal","🇳🇵","Asia","🥟"],
+  ["Shawarma","Lebanon","🇱🇧","Middle East","🌯"],["Falafel","Egypt","🇪🇬","Middle East","🧆"],["Kebab","Türkiye","🇹🇷","Middle East","🥙"],["Baklava","Türkiye","🇹🇷","Middle East","🍯"],["Mansaf","Jordan","🇯🇴","Middle East","🍖"],
+  ["Pizza Margherita","Italy","🇮🇹","Europe","🍕"],["Carbonara","Italy","🇮🇹","Europe","🍝"],["Paella","Spain","🇪🇸","Europe","🥘"],["Croissant","France","🇫🇷","Europe","🥐"],
+  ["Ratatouille","France","🇫🇷","Europe","🍆"],["Fish and Chips","United Kingdom","🇬🇧","Europe","🐟"],["Schnitzel","Austria","🇦🇹","Europe","🍖"],["Bratwurst","Germany","🇩🇪","Europe","🌭"],
+  ["Moussaka","Greece","🇬🇷","Europe","🍆"],["Pierogi","Poland","🇵🇱","Europe","🥟"],["Borscht","Ukraine","🇺🇦","Europe","🍲"],["Fondue","Switzerland","🇨🇭","Europe","🧀"],
+  ["Tacos","Mexico","🇲🇽","Americas","🌮"],["Burrito","Mexico","🇲🇽","Americas","🌯"],["Hamburger","United States","🇺🇸","Americas","🍔"],["Poutine","Canada","🇨🇦","Americas","🍟"],
+  ["Feijoada","Brazil","🇧🇷","Americas","🫘"],["Ceviche","Peru","🇵🇪","Americas","🐟"],["Empanada","Argentina","🇦🇷","Americas","🥟"],["Arepa","Venezuela","🇻🇪","Americas","🫓"],["Jerk Chicken","Jamaica","🇯🇲","Americas","🍗"],
+  ["Jollof Rice","Nigeria","🇳🇬","Africa","🍚"],["Injera","Ethiopia","🇪🇹","Africa","🫓"],["Tagine","Morocco","🇲🇦","Africa","🍲"],["Couscous","Morocco","🇲🇦","Africa","🍚"],
+  ["Bobotie","South Africa","🇿🇦","Africa","🥧"],["Bunny Chow","South Africa","🇿🇦","Africa","🍞"],["Shakshuka","Tunisia","🇹🇳","Africa","🍳"],
+  ["Pavlova","New Zealand","🇳🇿","Oceania","🍰"],["Hangi","New Zealand","🇳🇿","Oceania","🍠"],["Meat Pie","Australia","🇦🇺","Oceania","🥧"],["Lamington","Australia","🇦🇺","Oceania","🍰"],
+  ["Hainanese Chicken Rice","Singapore","🇸🇬","Asia","🍗"],["Ambuyat","Brunei","🇧🇳","Asia","🍲"],["Fish Amok","Cambodia","🇰🇭","Asia","🐟"],["Larb","Laos","🇱🇦","Asia","🥗"],
+  ["Mohinga","Myanmar","🇲🇲","Asia","🍜"],["Batar Da'an","Timor-Leste","🇹🇱","Asia","🌽"],["Beef Noodle Soup","Taiwan","🇹🇼","Asia","🍜"],["Buuz","Mongolia","🇲🇳","Asia","🥟"],
+  ["Nihari","Pakistan","🇵🇰","Asia","🍲"],["Hilsa Curry","Bangladesh","🇧🇩","Asia","🐟"],["Hoppers","Sri Lanka","🇱🇰","Asia","🥞"],["Kabuli Pulao","Afghanistan","🇦🇫","Asia","🍚"],
+  ["Beshbarmak","Kazakhstan","🇰🇿","Asia","🍖"],["Plov","Uzbekistan","🇺🇿","Asia","🍚"],["Chelo Kebab","Iran","🇮🇷","Middle East","🍢"],["Masgouf","Iraq","🇮🇶","Middle East","🐟"],
+  ["Kabsa","Saudi Arabia","🇸🇦","Middle East","🍚"],["Mandi","Yemen","🇾🇪","Middle East","🍚"],["Sabich","Israel","🇮🇱","Middle East","🥙"],["Kibbeh","Syria","🇸🇾","Middle East","🧆"],
+  ["Khachapuri","Georgia","🇬🇪","Europe","🧀"],["Khorovats","Armenia","🇦🇲","Europe","🍢"],["Dolma","Azerbaijan","🇦🇿","Europe","🍃"],
+  ["Pastel de Nata","Portugal","🇵🇹","Europe","🥧"],["Irish Stew","Ireland","🇮🇪","Europe","🍲"],["Stroopwafel","Netherlands","🇳🇱","Europe","🧇"],["Moules-frites","Belgium","🇧🇪","Europe","🦪"],
+  ["Goulash","Hungary","🇭🇺","Europe","🍲"],["Svíčková","Czechia","🇨🇿","Europe","🍖"],["Swedish Meatballs","Sweden","🇸🇪","Europe","🧆"],["Fårikål","Norway","🇳🇴","Europe","🍲"],
+  ["Smørrebrød","Denmark","🇩🇰","Europe","🥪"],["Karelian Pie","Finland","🇫🇮","Europe","🥧"],["Pelmeni","Russia","🇷🇺","Europe","🥟"],["Sarmale","Romania","🇷🇴","Europe","🥬"],
+  ["Peka","Croatia","🇭🇷","Europe","🍖"],["Ćevapi","Serbia","🇷🇸","Europe","🍢"],["Plokkfiskur","Iceland","🇮🇸","Europe","🐟"],
+  ["Bandeja Paisa","Colombia","🇨🇴","Americas","🍛"],["Pastel de Choclo","Chile","🇨🇱","Americas","🌽"],["Ropa Vieja","Cuba","🇨🇺","Americas","🍖"],["Mangú","Dominican Republic","🇩🇴","Americas","🍌"],
+  ["Pepián","Guatemala","🇬🇹","Americas","🍲"],["Encebollado","Ecuador","🇪🇨","Americas","🐟"],["Salteña","Bolivia","🇧🇴","Americas","🥟"],["Chivito","Uruguay","🇺🇾","Americas","🥪"],
+  ["Chipa","Paraguay","🇵🇾","Americas","🥯"],["Griot","Haiti","🇭🇹","Americas","🍖"],["Doubles","Trinidad and Tobago","🇹🇹","Americas","🫓"],
+  ["Fufu","Ghana","🇬🇭","Africa","🍲"],["Thieboudienne","Senegal","🇸🇳","Africa","🐟"],["Nyama Choma","Kenya","🇰🇪","Africa","🍖"],["Ugali","Tanzania","🇹🇿","Africa","🍚"],
+  ["Chakhchoukha","Algeria","🇩🇿","Africa","🍲"],["Koshari","Egypt","🇪🇬","Middle East","🍝"],["Rolex","Uganda","🇺🇬","Africa","🌯"],["Ndolé","Cameroon","🇨🇲","Africa","🥬"],
+  ["Peri-peri Chicken","Mozambique","🇲🇿","Africa","🍗"],["Romazava","Madagascar","🇲🇬","Africa","🍲"],["Canjeero","Somalia","🇸🇴","Africa","🫓"],["Attiéké","Côte d'Ivoire","🇨🇮","Africa","🍚"],
+  ["Kokoda","Fiji","🇫🇯","Oceania","🐟"],["Palusami","Samoa","🇼🇸","Oceania","🥬"],["Mumu","Papua New Guinea","🇵🇬","Oceania","🍠"],["Lu Pulu","Tonga","🇹🇴","Oceania","🥬"],
+  ["Soto Ayam", "Indonesia", "🇮🇩", "Asia", "🍲"],
+  ["Bakso", "Indonesia", "🇮🇩", "Asia", "🍲"],
+  ["Gudeg", "Indonesia", "🇮🇩", "Asia", "🍛"],
+  ["Nasi Uduk", "Indonesia", "🇮🇩", "Asia", "🍚"],
+  ["Rawon", "Indonesia", "🇮🇩", "Asia", "🍲"],
+  ["Pempek", "Indonesia", "🇮🇩", "Asia", "🐟"],
+  ["Martabak", "Indonesia", "🇮🇩", "Asia", "🥞"],
+  ["Nasi Padang", "Indonesia", "🇮🇩", "Asia", "🍛"],
+  ["Ayam Betutu", "Indonesia", "🇮🇩", "Asia", "🍗"],
+  ["Coto Makassar", "Indonesia", "🇮🇩", "Asia", "🍲"],
+  ["Klepon", "Indonesia", "🇮🇩", "Asia", "🍡"],
+  ["Es Cendol", "Indonesia", "🇮🇩", "Asia", "🍧"],
+  ["Rujak", "Indonesia", "🇮🇩", "Asia", "🥗"],
+  ["Tempe Mendoan", "Indonesia", "🇮🇩", "Asia", "🫓"],
+  ["Opor Ayam", "Indonesia", "🇮🇩", "Asia", "🍗"],
+  ["Sop Buntut", "Indonesia", "🇮🇩", "Asia", "🍲"],
+  ["Bubur Ayam", "Indonesia", "🇮🇩", "Asia", "🥣"],
+  ["Nasi Kuning", "Indonesia", "🇮🇩", "Asia", "🍚"],
+  ["Babi Guling", "Indonesia", "🇮🇩", "Asia", "🐖"],
+  ["Papeda", "Indonesia", "🇮🇩", "Asia", "🥣"],
+  ["Mie Aceh", "Indonesia", "🇮🇩", "Asia", "🍜"],
+  ["Kerak Telor", "Indonesia", "🇮🇩", "Asia", "🍳"],
+  ["Ketoprak", "Indonesia", "🇮🇩", "Asia", "🥗"],
+  ["Siomay", "Indonesia", "🇮🇩", "Asia", "🥟"],
+  ["Lontong Sayur", "Indonesia", "🇮🇩", "Asia", "🍲"],
+  ["Ayam Taliwang", "Indonesia", "🇮🇩", "Asia", "🍗"],
+  ["Serabi", "Indonesia", "🇮🇩", "Asia", "🥞"],
+  ["Pecel Lele", "Indonesia", "🇮🇩", "Asia", "🐟"],
+  ["Nasi Liwet", "Indonesia", "🇮🇩", "Asia", "🍚"],
+  ["Okonomiyaki", "Japan", "🇯🇵", "Asia", "🥞"],
+  ["Takoyaki", "Japan", "🇯🇵", "Asia", "🐙"],
+  ["Udon", "Japan", "🇯🇵", "Asia", "🍜"],
+  ["Soba", "Japan", "🇯🇵", "Asia", "🍜"],
+  ["Tonkatsu", "Japan", "🇯🇵", "Asia", "🍖"],
+  ["Onigiri", "Japan", "🇯🇵", "Asia", "🍙"],
+  ["Yakitori", "Japan", "🇯🇵", "Asia", "🍢"],
+  ["Japanese Curry", "Japan", "🇯🇵", "Asia", "🍛"],
+  ["Mochi", "Japan", "🇯🇵", "Asia", "🍡"],
+  ["Sukiyaki", "Japan", "🇯🇵", "Asia", "🍲"],
+  ["Unagi Don", "Japan", "🇯🇵", "Asia", "🍱"],
+  ["Miso Soup", "Japan", "🇯🇵", "Asia", "🥣"],
+  ["Karaage", "Japan", "🇯🇵", "Asia", "🍗"],
+  ["Shabu-shabu", "Japan", "🇯🇵", "Asia", "🍲"],
+  ["Dorayaki", "Japan", "🇯🇵", "Asia", "🥞"],
+  ["Gyudon", "Japan", "🇯🇵", "Asia", "🍚"],
+  ["Bulgogi", "South Korea", "🇰🇷", "Asia", "🥩"],
+  ["Tteokbokki", "South Korea", "🇰🇷", "Asia", "🌶️"],
+  ["Japchae", "South Korea", "🇰🇷", "Asia", "🍝"],
+  ["Samgyeopsal", "South Korea", "🇰🇷", "Asia", "🥓"],
+  ["Korean Fried Chicken", "South Korea", "🇰🇷", "Asia", "🍗"],
+  ["Kimbap", "South Korea", "🇰🇷", "Asia", "🍙"],
+  ["Sundubu Jjigae", "South Korea", "🇰🇷", "Asia", "🍲"],
+  ["Galbi", "South Korea", "🇰🇷", "Asia", "🍖"],
+  ["Bingsu", "South Korea", "🇰🇷", "Asia", "🍧"],
+  ["Pyongyang Naengmyeon", "North Korea", "🇰🇵", "Asia", "🍜"],
+  ["Kung Pao Chicken", "China", "🇨🇳", "Asia", "🍗"],
+  ["Mapo Tofu", "China", "🇨🇳", "Asia", "🌶️"],
+  ["Xiaolongbao", "China", "🇨🇳", "Asia", "🥟"],
+  ["Chow Mein", "China", "🇨🇳", "Asia", "🍜"],
+  ["Hot Pot", "China", "🇨🇳", "Asia", "🍲"],
+  ["Char Siu", "China", "🇨🇳", "Asia", "🍖"],
+  ["Jianbing", "China", "🇨🇳", "Asia", "🌯"],
+  ["Lanzhou Lamian", "China", "🇨🇳", "Asia", "🍜"],
+  ["Zongzi", "China", "🇨🇳", "Asia", "🍙"],
+  ["Mooncake", "China", "🇨🇳", "Asia", "🥮"],
+  ["Sweet and Sour Pork", "China", "🇨🇳", "Asia", "🍖"],
+  ["Wonton Soup", "China", "🇨🇳", "Asia", "🥟"],
+  ["Congee", "China", "🇨🇳", "Asia", "🥣"],
+  ["Fried Rice", "China", "🇨🇳", "Asia", "🍚"],
+  ["Masala Dosa", "India", "🇮🇳", "Asia", "🫓"],
+  ["Chole Bhature", "India", "🇮🇳", "Asia", "🫓"],
+  ["Pani Puri", "India", "🇮🇳", "Asia", "🥙"],
+  ["Rogan Josh", "India", "🇮🇳", "Asia", "🍛"],
+  ["Palak Paneer", "India", "🇮🇳", "Asia", "🥬"],
+  ["Samosa", "India", "🇮🇳", "Asia", "🥟"],
+  ["Vada Pav", "India", "🇮🇳", "Asia", "🍔"],
+  ["Idli", "India", "🇮🇳", "Asia", "🍘"],
+  ["Tandoori Chicken", "India", "🇮🇳", "Asia", "🍗"],
+  ["Dal Makhani", "India", "🇮🇳", "Asia", "🍲"],
+  ["Pav Bhaji", "India", "🇮🇳", "Asia", "🍞"],
+  ["Gulab Jamun", "India", "🇮🇳", "Asia", "🍡"],
+  ["Rasgulla", "India", "🇮🇳", "Asia", "🍡"],
+  ["Thali", "India", "🇮🇳", "Asia", "🍱"],
+  ["Chicken Tikka Masala", "India", "🇮🇳", "Asia", "🍛"],
+  ["Green Curry", "Thailand", "🇹🇭", "Asia", "🍛"],
+  ["Massaman Curry", "Thailand", "🇹🇭", "Asia", "🍛"],
+  ["Som Tam", "Thailand", "🇹🇭", "Asia", "🥗"],
+  ["Khao Soi", "Thailand", "🇹🇭", "Asia", "🍜"],
+  ["Mango Sticky Rice", "Thailand", "🇹🇭", "Asia", "🥭"],
+  ["Pad Kra Pao", "Thailand", "🇹🇭", "Asia", "🍳"],
+  ["Khao Man Gai", "Thailand", "🇹🇭", "Asia", "🍗"],
+  ["Tom Kha Gai", "Thailand", "🇹🇭", "Asia", "🥥"],
+  ["Bun Cha", "Vietnam", "🇻🇳", "Asia", "🍜"],
+  ["Goi Cuon", "Vietnam", "🇻🇳", "Asia", "🌯"],
+  ["Banh Xeo", "Vietnam", "🇻🇳", "Asia", "🥞"],
+  ["Com Tam", "Vietnam", "🇻🇳", "Asia", "🍚"],
+  ["Bun Bo Hue", "Vietnam", "🇻🇳", "Asia", "🍜"],
+  ["Cao Lau", "Vietnam", "🇻🇳", "Asia", "🍜"],
+  ["Vietnamese Coffee", "Vietnam", "🇻🇳", "Asia", "☕"],
+  ["Sinigang", "Philippines", "🇵🇭", "Asia", "🍲"],
+  ["Lechon", "Philippines", "🇵🇭", "Asia", "🐖"],
+  ["Kare-Kare", "Philippines", "🇵🇭", "Asia", "🍲"],
+  ["Sisig", "Philippines", "🇵🇭", "Asia", "🍳"],
+  ["Halo-halo", "Philippines", "🇵🇭", "Asia", "🍧"],
+  ["Lumpia", "Philippines", "🇵🇭", "Asia", "🌯"],
+  ["Pancit", "Philippines", "🇵🇭", "Asia", "🍜"],
+  ["Laksa", "Malaysia", "🇲🇾", "Asia", "🍜"],
+  ["Char Kway Teow", "Malaysia", "🇲🇾", "Asia", "🍜"],
+  ["Roti Canai", "Malaysia", "🇲🇾", "Asia", "🫓"],
+  ["Nasi Kandar", "Malaysia", "🇲🇾", "Asia", "🍛"],
+  ["Chilli Crab", "Singapore", "🇸🇬", "Asia", "🦀"],
+  ["Kaya Toast", "Singapore", "🇸🇬", "Asia", "🍞"],
+  ["Bubble Tea", "Taiwan", "🇹🇼", "Asia", "🧋"],
+  ["Gua Bao", "Taiwan", "🇹🇼", "Asia", "🥙"],
+  ["Lu Rou Fan", "Taiwan", "🇹🇼", "Asia", "🍚"],
+  ["Chapli Kebab", "Pakistan", "🇵🇰", "Asia", "🍔"],
+  ["Haleem", "Pakistan", "🇵🇰", "Asia", "🍲"],
+  ["Kacchi Biryani", "Bangladesh", "🇧🇩", "Asia", "🍛"],
+  ["Kottu Roti", "Sri Lanka", "🇱🇰", "Asia", "🫓"],
+  ["Dal Bhat", "Nepal", "🇳🇵", "Asia", "🍛"],
+  ["Tea Leaf Salad", "Myanmar", "🇲🇲", "Asia", "🥗"],
+  ["Lok Lak", "Cambodia", "🇰🇭", "Asia", "🥩"],
+  ["Khao Piak Sen", "Laos", "🇱🇦", "Asia", "🍜"],
+  ["Ema Datshi", "Bhutan", "🇧🇹", "Asia", "🌶️"],
+  ["Mas Huni", "Maldives", "🇲🇻", "Asia", "🥥"],
+  ["Kuurdak", "Kyrgyzstan", "🇰🇬", "Asia", "🍖"],
+  ["Qurutob", "Tajikistan", "🇹🇯", "Asia", "🥗"],
+  ["Dograma", "Turkmenistan", "🇹🇲", "Asia", "🍲"],
+  ["Hummus", "Lebanon", "🇱🇧", "Middle East", "🫘"],
+  ["Tabbouleh", "Lebanon", "🇱🇧", "Middle East", "🥗"],
+  ["Fattoush", "Lebanon", "🇱🇧", "Middle East", "🥗"],
+  ["Manakish", "Lebanon", "🇱🇧", "Middle East", "🫓"],
+  ["Musakhan", "Palestine", "🇵🇸", "Middle East", "🍗"],
+  ["Knafeh", "Palestine", "🇵🇸", "Middle East", "🍮"],
+  ["Maqluba", "Jordan", "🇯🇴", "Middle East", "🍚"],
+  ["Iskender Kebab", "Türkiye", "🇹🇷", "Middle East", "🥩"],
+  ["Lahmacun", "Türkiye", "🇹🇷", "Middle East", "🫓"],
+  ["Menemen", "Türkiye", "🇹🇷", "Middle East", "🍳"],
+  ["Manti", "Türkiye", "🇹🇷", "Middle East", "🥟"],
+  ["Döner", "Türkiye", "🇹🇷", "Middle East", "🥙"],
+  ["Simit", "Türkiye", "🇹🇷", "Middle East", "🥯"],
+  ["Ghormeh Sabzi", "Iran", "🇮🇷", "Middle East", "🍲"],
+  ["Tahdig", "Iran", "🇮🇷", "Middle East", "🍚"],
+  ["Fesenjan", "Iran", "🇮🇷", "Middle East", "🍗"],
+  ["Ful Medames", "Egypt", "🇪🇬", "Middle East", "🫘"],
+  ["Molokhia", "Egypt", "🇪🇬", "Middle East", "🥬"],
+  ["Jareesh", "Saudi Arabia", "🇸🇦", "Middle East", "🥣"],
+  ["Saltah", "Yemen", "🇾🇪", "Middle East", "🍲"],
+  ["Machboos", "United Arab Emirates", "🇦🇪", "Middle East", "🍚"],
+  ["Harees", "Qatar", "🇶🇦", "Middle East", "🥣"],
+  ["Mutabbaq Samak", "Kuwait", "🇰🇼", "Middle East", "🐟"],
+  ["Muhammar", "Bahrain", "🇧🇭", "Middle East", "🍚"],
+  ["Shuwa", "Oman", "🇴🇲", "Middle East", "🍖"],
+  ["Sheftalia", "Cyprus", "🇨🇾", "Europe", "🌭"],
+  ["Bourekas", "Israel", "🇮🇱", "Middle East", "🥐"],
+  ["Lasagna", "Italy", "🇮🇹", "Europe", "🍝"],
+  ["Risotto alla Milanese", "Italy", "🇮🇹", "Europe", "🍚"],
+  ["Tiramisu", "Italy", "🇮🇹", "Europe", "🍰"],
+  ["Gelato", "Italy", "🇮🇹", "Europe", "🍨"],
+  ["Ossobuco", "Italy", "🇮🇹", "Europe", "🍖"],
+  ["Arancini", "Italy", "🇮🇹", "Europe", "🍙"],
+  ["Cacio e Pepe", "Italy", "🇮🇹", "Europe", "🍝"],
+  ["Focaccia", "Italy", "🇮🇹", "Europe", "🍞"],
+  ["Cannoli", "Italy", "🇮🇹", "Europe", "🥐"],
+  ["Pesto Genovese", "Italy", "🇮🇹", "Europe", "🌿"],
+  ["Coq au Vin", "France", "🇫🇷", "Europe", "🍗"],
+  ["Boeuf Bourguignon", "France", "🇫🇷", "Europe", "🍲"],
+  ["Crêpes", "France", "🇫🇷", "Europe", "🥞"],
+  ["Quiche Lorraine", "France", "🇫🇷", "Europe", "🥧"],
+  ["Bouillabaisse", "France", "🇫🇷", "Europe", "🐟"],
+  ["Escargots", "France", "🇫🇷", "Europe", "🐌"],
+  ["Croque Monsieur", "France", "🇫🇷", "Europe", "🥪"],
+  ["Crème Brûlée", "France", "🇫🇷", "Europe", "🍮"],
+  ["Macaron", "France", "🇫🇷", "Europe", "🍪"],
+  ["Baguette", "France", "🇫🇷", "Europe", "🥖"],
+  ["Cassoulet", "France", "🇫🇷", "Europe", "🍲"],
+  ["Tortilla Española", "Spain", "🇪🇸", "Europe", "🍳"],
+  ["Gazpacho", "Spain", "🇪🇸", "Europe", "🍅"],
+  ["Churros", "Spain", "🇪🇸", "Europe", "🍩"],
+  ["Patatas Bravas", "Spain", "🇪🇸", "Europe", "🥔"],
+  ["Jamón Ibérico", "Spain", "🇪🇸", "Europe", "🍖"],
+  ["Croquetas", "Spain", "🇪🇸", "Europe", "🧆"],
+  ["Full English Breakfast", "United Kingdom", "🇬🇧", "Europe", "🍳"],
+  ["Shepherd's Pie", "United Kingdom", "🇬🇧", "Europe", "🥧"],
+  ["Sunday Roast", "United Kingdom", "🇬🇧", "Europe", "🍖"],
+  ["Haggis", "United Kingdom", "🇬🇧", "Europe", "🍖"],
+  ["Scones", "United Kingdom", "🇬🇧", "Europe", "🧁"],
+  ["Cornish Pasty", "United Kingdom", "🇬🇧", "Europe", "🥟"],
+  ["Sticky Toffee Pudding", "United Kingdom", "🇬🇧", "Europe", "🍮"],
+  ["Pretzel", "Germany", "🇩🇪", "Europe", "🥨"],
+  ["Sauerbraten", "Germany", "🇩🇪", "Europe", "🍖"],
+  ["Currywurst", "Germany", "🇩🇪", "Europe", "🌭"],
+  ["Black Forest Cake", "Germany", "🇩🇪", "Europe", "🍰"],
+  ["Spätzle", "Germany", "🇩🇪", "Europe", "🍝"],
+  ["Sachertorte", "Austria", "🇦🇹", "Europe", "🍫"],
+  ["Apfelstrudel", "Austria", "🇦🇹", "Europe", "🍎"],
+  ["Rösti", "Switzerland", "🇨🇭", "Europe", "🥔"],
+  ["Raclette", "Switzerland", "🇨🇭", "Europe", "🧀"],
+  ["Souvlaki", "Greece", "🇬🇷", "Europe", "🍢"],
+  ["Gyros", "Greece", "🇬🇷", "Europe", "🥙"],
+  ["Spanakopita", "Greece", "🇬🇷", "Europe", "🥧"],
+  ["Greek Salad", "Greece", "🇬🇷", "Europe", "🥗"],
+  ["Bacalhau à Brás", "Portugal", "🇵🇹", "Europe", "🐟"],
+  ["Francesinha", "Portugal", "🇵🇹", "Europe", "🥪"],
+  ["Bitterballen", "Netherlands", "🇳🇱", "Europe", "🧆"],
+  ["Hollandse Nieuwe", "Netherlands", "🇳🇱", "Europe", "🐟"],
+  ["Bigos", "Poland", "🇵🇱", "Europe", "🍲"],
+  ["Żurek", "Poland", "🇵🇱", "Europe", "🥣"],
+  ["Beef Stroganoff", "Russia", "🇷🇺", "Europe", "🍲"],
+  ["Blini", "Russia", "🇷🇺", "Europe", "🥞"],
+  ["Varenyky", "Ukraine", "🇺🇦", "Europe", "🥟"],
+  ["Lángos", "Hungary", "🇭🇺", "Europe", "🫓"],
+  ["Belgian Waffle", "Belgium", "🇧🇪", "Europe", "🧇"],
+  ["Kanelbulle", "Sweden", "🇸🇪", "Europe", "🥐"],
+  ["Colcannon", "Ireland", "🇮🇪", "Europe", "🥔"],
+  ["Trdelník", "Czechia", "🇨🇿", "Europe", "🥐"],
+  ["Khinkali", "Georgia", "🇬🇪", "Europe", "🥟"],
+  ["Tavë Kosi", "Albania", "🇦🇱", "Europe", "🍲"],
+  ["Tavče Gravče", "North Macedonia", "🇲🇰", "Europe", "🫘"],
+  ["Kačamak", "Montenegro", "🇲🇪", "Europe", "🥣"],
+  ["Burek", "Bosnia and Herzegovina", "🇧🇦", "Europe", "🥧"],
+  ["Flija", "Kosovo", "🇽🇰", "Europe", "🥞"],
+  ["Potica", "Slovenia", "🇸🇮", "Europe", "🍰"],
+  ["Bryndzové Halušky", "Slovakia", "🇸🇰", "Europe", "🧀"],
+  ["Banitsa", "Bulgaria", "🇧🇬", "Europe", "🥧"],
+  ["Mămăligă", "Moldova", "🇲🇩", "Europe", "🌽"],
+  ["Draniki", "Belarus", "🇧🇾", "Europe", "🥔"],
+  ["Cepelinai", "Lithuania", "🇱🇹", "Europe", "🥔"],
+  ["Grey Peas with Bacon", "Latvia", "🇱🇻", "Europe", "🫛"],
+  ["Verivorst", "Estonia", "🇪🇪", "Europe", "🌭"],
+  ["Judd mat Gaardebounen", "Luxembourg", "🇱🇺", "Europe", "🍖"],
+  ["Käsknöpfle", "Liechtenstein", "🇱🇮", "Europe", "🧀"],
+  ["Barbagiuan", "Monaco", "🇲🇨", "Europe", "🥟"],
+  ["Pastizzi", "Malta", "🇲🇹", "Europe", "🥐"],
+  ["Torta Tre Monti", "San Marino", "🇸🇲", "Europe", "🍰"],
+  ["Trinxat", "Andorra", "🇦🇩", "Europe", "🥔"],
+  ["Barbecue Ribs", "United States", "🇺🇸", "Americas", "🍖"],
+  ["Mac and Cheese", "United States", "🇺🇸", "Americas", "🧀"],
+  ["Southern Fried Chicken", "United States", "🇺🇸", "Americas", "🍗"],
+  ["Apple Pie", "United States", "🇺🇸", "Americas", "🥧"],
+  ["Clam Chowder", "United States", "🇺🇸", "Americas", "🥣"],
+  ["Buffalo Wings", "United States", "🇺🇸", "Americas", "🍗"],
+  ["Hot Dog", "United States", "🇺🇸", "Americas", "🌭"],
+  ["New York Cheesecake", "United States", "🇺🇸", "Americas", "🍰"],
+  ["Gumbo", "United States", "🇺🇸", "Americas", "🍲"],
+  ["Pancakes", "United States", "🇺🇸", "Americas", "🥞"],
+  ["Chili con Carne", "United States", "🇺🇸", "Americas", "🌶️"],
+  ["Mole Poblano", "Mexico", "🇲🇽", "Americas", "🍗"],
+  ["Enchiladas", "Mexico", "🇲🇽", "Americas", "🌯"],
+  ["Tamales", "Mexico", "🇲🇽", "Americas", "🫔"],
+  ["Pozole", "Mexico", "🇲🇽", "Americas", "🍲"],
+  ["Chiles en Nogada", "Mexico", "🇲🇽", "Americas", "🌶️"],
+  ["Guacamole", "Mexico", "🇲🇽", "Americas", "🥑"],
+  ["Quesadilla", "Mexico", "🇲🇽", "Americas", "🧀"],
+  ["Elote", "Mexico", "🇲🇽", "Americas", "🌽"],
+  ["Cochinita Pibil", "Mexico", "🇲🇽", "Americas", "🐖"],
+  ["Butter Tart", "Canada", "🇨🇦", "Americas", "🥧"],
+  ["Nanaimo Bar", "Canada", "🇨🇦", "Americas", "🍫"],
+  ["Pão de Queijo", "Brazil", "🇧🇷", "Americas", "🧀"],
+  ["Brigadeiro", "Brazil", "🇧🇷", "Americas", "🍫"],
+  ["Moqueca", "Brazil", "🇧🇷", "Americas", "🐟"],
+  ["Coxinha", "Brazil", "🇧🇷", "Americas", "🍗"],
+  ["Picanha", "Brazil", "🇧🇷", "Americas", "🥩"],
+  ["Açaí Bowl", "Brazil", "🇧🇷", "Americas", "🫐"],
+  ["Lomo Saltado", "Peru", "🇵🇪", "Americas", "🥩"],
+  ["Ají de Gallina", "Peru", "🇵🇪", "Americas", "🍗"],
+  ["Causa Limeña", "Peru", "🇵🇪", "Americas", "🥔"],
+  ["Anticuchos", "Peru", "🇵🇪", "Americas", "🍢"],
+  ["Asado", "Argentina", "🇦🇷", "Americas", "🥩"],
+  ["Choripán", "Argentina", "🇦🇷", "Americas", "🌭"],
+  ["Milanesa", "Argentina", "🇦🇷", "Americas", "🍖"],
+  ["Ajiaco", "Colombia", "🇨🇴", "Americas", "🍲"],
+  ["Completo", "Chile", "🇨🇱", "Americas", "🌭"],
+  ["Cazuela", "Chile", "🇨🇱", "Americas", "🍲"],
+  ["Cuban Sandwich", "Cuba", "🇨🇺", "Americas", "🥪"],
+  ["Pabellón Criollo", "Venezuela", "🇻🇪", "Americas", "🍛"],
+  ["Hallaca", "Venezuela", "🇻🇪", "Americas", "🫔"],
+  ["Ackee and Saltfish", "Jamaica", "🇯🇲", "Americas", "🐟"],
+  ["Jamaican Patty", "Jamaica", "🇯🇲", "Americas", "🥟"],
+  ["Llapingachos", "Ecuador", "🇪🇨", "Americas", "🥔"],
+  ["Silpancho", "Bolivia", "🇧🇴", "Americas", "🥩"],
+  ["Gallo Pinto", "Costa Rica", "🇨🇷", "Americas", "🫘"],
+  ["Sancocho", "Panama", "🇵🇦", "Americas", "🍲"],
+  ["Vigorón", "Nicaragua", "🇳🇮", "Americas", "🥗"],
+  ["Baleada", "Honduras", "🇭🇳", "Americas", "🌯"],
+  ["Pupusa", "El Salvador", "🇸🇻", "Americas", "🫓"],
+  ["Stew Chicken", "Belize", "🇧🇿", "Americas", "🍗"],
+  ["Pepperpot", "Guyana", "🇬🇾", "Americas", "🍲"],
+  ["Pom", "Suriname", "🇸🇷", "Americas", "🍗"],
+  ["Cou-Cou and Flying Fish", "Barbados", "🇧🇧", "Americas", "🐟"],
+  ["Conch Fritters", "Bahamas", "🇧🇸", "Americas", "🐚"],
+  ["Oil Down", "Grenada", "🇬🇩", "Americas", "🍲"],
+  ["Green Fig and Saltfish", "Saint Lucia", "🇱🇨", "Americas", "🍌"],
+  ["Fungee and Pepperpot", "Antigua and Barbuda", "🇦🇬", "Americas", "🍲"],
+  ["Callaloo Soup", "Dominica", "🇩🇲", "Americas", "🥬"],
+  ["Stewed Saltfish", "Saint Kitts and Nevis", "🇰🇳", "Americas", "🐟"],
+  ["Breadfruit and Jackfish", "Saint Vincent and the Grenadines", "🇻🇨", "Americas", "🐟"],
+  ["Suya", "Nigeria", "🇳🇬", "Africa", "🍢"],
+  ["Egusi Soup", "Nigeria", "🇳🇬", "Africa", "🍲"],
+  ["Pounded Yam", "Nigeria", "🇳🇬", "Africa", "🍠"],
+  ["Puff-puff", "Nigeria", "🇳🇬", "Africa", "🍩"],
+  ["Moi Moi", "Nigeria", "🇳🇬", "Africa", "🫘"],
+  ["Doro Wat", "Ethiopia", "🇪🇹", "Africa", "🍗"],
+  ["Kitfo", "Ethiopia", "🇪🇹", "Africa", "🥩"],
+  ["Tibs", "Ethiopia", "🇪🇹", "Africa", "🍖"],
+  ["Pastilla", "Morocco", "🇲🇦", "Africa", "🥧"],
+  ["Harira", "Morocco", "🇲🇦", "Africa", "🍲"],
+  ["Msemen", "Morocco", "🇲🇦", "Africa", "🫓"],
+  ["Biltong", "South Africa", "🇿🇦", "Africa", "🥩"],
+  ["Boerewors", "South Africa", "🇿🇦", "Africa", "🌭"],
+  ["Malva Pudding", "South Africa", "🇿🇦", "Africa", "🍮"],
+  ["Chakalaka", "South Africa", "🇿🇦", "Africa", "🌶️"],
+  ["Sukuma Wiki", "Kenya", "🇰🇪", "Africa", "🥬"],
+  ["Githeri", "Kenya", "🇰🇪", "Africa", "🌽"],
+  ["Kelewele", "Ghana", "🇬🇭", "Africa", "🍌"],
+  ["Banku", "Ghana", "🇬🇭", "Africa", "🍲"],
+  ["Waakye", "Ghana", "🇬🇭", "Africa", "🍚"],
+  ["Yassa Chicken", "Senegal", "🇸🇳", "Africa", "🍗"],
+  ["Mafe", "Senegal", "🇸🇳", "Africa", "🥜"],
+  ["Brik", "Tunisia", "🇹🇳", "Africa", "🥟"],
+  ["Lablabi", "Tunisia", "🇹🇳", "Africa", "🥣"],
+  ["Rechta", "Algeria", "🇩🇿", "Africa", "🍝"],
+  ["Zanzibar Pizza", "Tanzania", "🇹🇿", "Africa", "🍕"],
+  ["Mishkaki", "Tanzania", "🇹🇿", "Africa", "🍢"],
+  ["Luwombo", "Uganda", "🇺🇬", "Africa", "🍲"],
+  ["Achu Soup", "Cameroon", "🇨🇲", "Africa", "🍲"],
+  ["Alloco", "Côte d'Ivoire", "🇨🇮", "Africa", "🍌"],
+  ["Matapa", "Mozambique", "🇲🇿", "Africa", "🥬"],
+  ["Bazeen", "Libya", "🇱🇾", "Africa", "🍲"],
+  ["Kisra", "Sudan", "🇸🇩", "Africa", "🫓"],
+  ["Zigni", "Eritrea", "🇪🇷", "Africa", "🍲"],
+  ["Skoudehkaris", "Djibouti", "🇩🇯", "Africa", "🍚"],
+  ["Isombe", "Rwanda", "🇷🇼", "Africa", "🥬"],
+  ["Poulet Moambe", "DR Congo", "🇨🇩", "Africa", "🍗"],
+  ["Saka Saka", "Republic of the Congo", "🇨🇬", "Africa", "🥬"],
+  ["Nyembwe Chicken", "Gabon", "🇬🇦", "Africa", "🍗"],
+  ["Muamba de Galinha", "Angola", "🇦🇴", "Africa", "🍗"],
+  ["Nshima", "Zambia", "🇿🇲", "Africa", "🍚"],
+  ["Sadza", "Zimbabwe", "🇿🇼", "Africa", "🍚"],
+  ["Chambo", "Malawi", "🇲🇼", "Africa", "🐟"],
+  ["Seswaa", "Botswana", "🇧🇼", "Africa", "🥩"],
+  ["Kapana", "Namibia", "🇳🇦", "Africa", "🍢"],
+  ["Tigadèguèna", "Mali", "🇲🇱", "Africa", "🥜"],
+  ["Riz Gras", "Burkina Faso", "🇧🇫", "Africa", "🍚"],
+  ["Domoda", "Gambia", "🇬🇲", "Africa", "🥜"],
+  ["Cassava Leaf Stew", "Sierra Leone", "🇸🇱", "Africa", "🥬"],
+  ["Palm Butter Soup", "Liberia", "🇱🇷", "Africa", "🍲"],
+  ["Amiwo", "Benin", "🇧🇯", "Africa", "🍗"],
+  ["Cachupa", "Cape Verde", "🇨🇻", "Africa", "🍲"],
+  ["Calulu", "São Tomé and Príncipe", "🇸🇹", "Africa", "🍲"],
+  ["Dholl Puri", "Mauritius", "🇲🇺", "Africa", "🫓"],
+  ["Octopus Curry", "Seychelles", "🇸🇨", "Africa", "🐙"],
+  ["Ablo", "Togo", "🇹🇬", "Africa", "🍘"],
+  ["Riz Sauce Arachide", "Guinea", "🇬🇳", "Africa", "🥜"],
+  ["Vegemite Toast", "Australia", "🇦🇺", "Oceania", "🍞"],
+  ["Barramundi", "Australia", "🇦🇺", "Oceania", "🐟"],
+  ["Anzac Biscuit", "Australia", "🇦🇺", "Oceania", "🍪"],
+  ["Sausage Sizzle", "Australia", "🇦🇺", "Oceania", "🌭"],
+  ["Hokey Pokey Ice Cream", "New Zealand", "🇳🇿", "Oceania", "🍦"],
+  ["Whitebait Fritter", "New Zealand", "🇳🇿", "Oceania", "🐟"],
+  ["Lovo", "Fiji", "🇫🇯", "Oceania", "🍖"],
+  ["Oka", "Samoa", "🇼🇸", "Oceania", "🐟"],
+  ["Ota Ika", "Tonga", "🇹🇴", "Oceania", "🐟"],
+  ["Lap Lap", "Vanuatu", "🇻🇺", "Oceania", "🍠"],
+  ["Nasi Campur", "Indonesia", "🇮🇩", "Asia", "🍚"],
+  ["Ayam Penyet", "Indonesia", "🇮🇩", "Asia", "🍗"],
+  ["Sayur Asem", "Indonesia", "🇮🇩", "Asia", "🍽️"],
+  ["Pepes Ikan", "Indonesia", "🇮🇩", "Asia", "🐟"],
+  ["Lumpia Semarang", "Indonesia", "🇮🇩", "Asia", "🍽️"],
+  ["Tahu Gejrot", "Indonesia", "🇮🇩", "Asia", "🫘"],
+  ["Bika Ambon", "Indonesia", "🇮🇩", "Asia", "🍰"],
+  ["Kue Lapis", "Indonesia", "🇮🇩", "Asia", "🍰"],
+  ["Dodol", "Indonesia", "🇮🇩", "Asia", "🍪"],
+  ["Soto Betawi", "Indonesia", "🇮🇩", "Asia", "🍽️"],
+  ["Gulai Kambing", "Indonesia", "🇮🇩", "Asia", "🍛"],
+  ["Nasi Bakar", "Indonesia", "🇮🇩", "Asia", "🍚"],
+  ["Mie Ayam", "Indonesia", "🇮🇩", "Asia", "🍜"],
+  ["Bakmi Jawa", "Indonesia", "🇮🇩", "Asia", "🍜"],
+  ["Es Teler", "Indonesia", "🇮🇩", "Asia", "🍽️"],
+  ["Kolak", "Indonesia", "🇮🇩", "Asia", "🍮"],
+  ["Ayam Goreng Kalasan", "Indonesia", "🇮🇩", "Asia", "🍗"],
+  ["Cakalang Fufu", "Indonesia", "🇮🇩", "Asia", "🐟"],
+  ["Tinutuan", "Indonesia", "🇮🇩", "Asia", "🍽️"],
+  ["Ikan Bakar", "Indonesia", "🇮🇩", "Asia", "🐟"],
+  ["Nasi Jamblang", "Indonesia", "🇮🇩", "Asia", "🍚"],
+  ["Sate Padang", "Indonesia", "🇮🇩", "Asia", "🍢"],
+  ["Sate Lilit", "Indonesia", "🇮🇩", "Asia", "🍢"],
+  ["Lawar", "Indonesia", "🇮🇩", "Asia", "🍽️"],
+  ["Tongseng", "Indonesia", "🇮🇩", "Asia", "🥩"],
+  ["Tengkleng", "Indonesia", "🇮🇩", "Asia", "🥩"],
+  ["Garang Asem", "Indonesia", "🇮🇩", "Asia", "🍽️"],
+  ["Kupat Tahu", "Indonesia", "🇮🇩", "Asia", "🫘"],
+  ["Nasi Gandul", "Indonesia", "🇮🇩", "Asia", "🍚"],
+  ["Sashimi", "Japan", "🇯🇵", "Asia", "🍽️"],
+  ["Chirashi", "Japan", "🇯🇵", "Asia", "🍽️"],
+  ["Katsudon", "Japan", "🇯🇵", "Asia", "🍜"],
+  ["Oyakodon", "Japan", "🇯🇵", "Asia", "🍽️"],
+  ["Nikujaga", "Japan", "🇯🇵", "Asia", "🍽️"],
+  ["Tamagoyaki", "Japan", "🇯🇵", "Asia", "🍳"],
+  ["Natto", "Japan", "🇯🇵", "Asia", "🫘"],
+  ["Taiyaki", "Japan", "🇯🇵", "Asia", "🍪"],
+  ["Yakisoba", "Japan", "🇯🇵", "Asia", "🍜"],
+  ["Kaiseki", "Japan", "🇯🇵", "Asia", "🍽️"],
+  ["Chawanmushi", "Japan", "🇯🇵", "Asia", "🍳"],
+  ["Oden", "Japan", "🇯🇵", "Asia", "🍽️"],
+  ["Hiyashi Chuka", "Japan", "🇯🇵", "Asia", "🍽️"],
+  ["Kushikatsu", "Japan", "🇯🇵", "Asia", "🍢"],
+  ["Goya Champuru", "Japan", "🇯🇵", "Asia", "🍽️"],
+  ["Melon Pan", "Japan", "🇯🇵", "Asia", "🍪"],
+  ["Doenjang Jjigae", "South Korea", "🇰🇷", "Asia", "🍲"],
+  ["Kimchi Jjigae", "South Korea", "🇰🇷", "Asia", "🍲"],
+  ["Samgyetang", "South Korea", "🇰🇷", "Asia", "🍲"],
+  ["Haemul Pajeon", "South Korea", "🇰🇷", "Asia", "🥞"],
+  ["Jjajangmyeon", "South Korea", "🇰🇷", "Asia", "🍜"],
+  ["Bossam", "South Korea", "🇰🇷", "Asia", "🐖"],
+  ["Hotteok", "South Korea", "🇰🇷", "Asia", "🥞"],
+  ["Dakgalbi", "South Korea", "🇰🇷", "Asia", "🍗"],
+  ["Budae Jjigae", "South Korea", "🇰🇷", "Asia", "🍲"],
+  ["Jokbal", "South Korea", "🇰🇷", "Asia", "🐖"],
+  ["Yukgaejang", "South Korea", "🇰🇷", "Asia", "🍽️"],
+  ["Seolleongtang", "South Korea", "🇰🇷", "Asia", "🍲"],
+  ["Mandu", "South Korea", "🇰🇷", "Asia", "🥟"],
+  ["Onban", "North Korea", "🇰🇵", "Asia", "🍽️"],
+  ["Injogogi Bap", "North Korea", "🇰🇵", "Asia", "🍽️"],
+  ["Dan Dan Noodles", "China", "🇨🇳", "Asia", "🍜"],
+  ["Shengjianbao", "China", "🇨🇳", "Asia", "🥟"],
+  ["Biang Biang Noodles", "China", "🇨🇳", "Asia", "🍜"],
+  ["Roast Goose", "China", "🇨🇳", "Asia", "🍽️"],
+  ["Egg Tart", "China", "🇨🇳", "Asia", "🥧"],
+  ["Twice-cooked Pork", "China", "🇨🇳", "Asia", "🐖"],
+  ["Dongpo Pork", "China", "🇨🇳", "Asia", "🐖"],
+  ["Beggar's Chicken", "China", "🇨🇳", "Asia", "🍗"],
+  ["Scallion Pancake", "China", "🇨🇳", "Asia", "🍰"],
+  ["Yangzhou Fried Rice", "China", "🇨🇳", "Asia", "🍚"],
+  ["Steamed Fish", "China", "🇨🇳", "Asia", "🐟"],
+  ["Spring Rolls", "China", "🇨🇳", "Asia", "🍽️"],
+  ["Tangyuan", "China", "🇨🇳", "Asia", "🍽️"],
+  ["Rou Jia Mo", "China", "🇨🇳", "Asia", "🍽️"],
+  ["Liangpi", "China", "🇨🇳", "Asia", "🍽️"],
+  ["Cha Siu Bao", "China", "🇨🇳", "Asia", "🥟"],
+  ["Mantou", "China", "🇨🇳", "Asia", "🍽️"],
+  ["Pongal", "India", "🇮🇳", "Asia", "🍽️"],
+  ["Uttapam", "India", "🇮🇳", "Asia", "🥞"],
+  ["Aloo Gobi", "India", "🇮🇳", "Asia", "🥔"],
+  ["Paneer Tikka", "India", "🇮🇳", "Asia", "🍽️"],
+  ["Hyderabadi Biryani", "India", "🇮🇳", "Asia", "🍚"],
+  ["Kerala Fish Curry", "India", "🇮🇳", "Asia", "🍛"],
+  ["Appam", "India", "🇮🇳", "Asia", "🥞"],
+  ["Goan Vindaloo", "India", "🇮🇳", "Asia", "🍛"],
+  ["Dhokla", "India", "🇮🇳", "Asia", "🍽️"],
+  ["Litti Chokha", "India", "🇮🇳", "Asia", "🍽️"],
+  ["Rajma Chawal", "India", "🇮🇳", "Asia", "🫘"],
+  ["Kheer", "India", "🇮🇳", "Asia", "🍮"],
+  ["Jalebi", "India", "🇮🇳", "Asia", "🍪"],
+  ["Malai Kofta", "India", "🇮🇳", "Asia", "🍢"],
+  ["Korma", "India", "🇮🇳", "Asia", "🍛"],
+  ["Sambar", "India", "🇮🇳", "Asia", "🍽️"],
+  ["Rasam", "India", "🇮🇳", "Asia", "🍽️"],
+  ["Bhel Puri", "India", "🇮🇳", "Asia", "🍽️"],
+  ["Misal Pav", "India", "🇮🇳", "Asia", "🍽️"],
+  ["Poha", "India", "🇮🇳", "Asia", "🍽️"],
+  ["Kulfi", "India", "🇮🇳", "Asia", "🍮"],
+  ["Lassi", "India", "🇮🇳", "Asia", "☕"],
+  ["Aloo Paratha", "India", "🇮🇳", "Asia", "🫓"],
+  ["Naan", "India", "🇮🇳", "Asia", "🫓"],
+  ["Pad See Ew", "Thailand", "🇹🇭", "Asia", "🍽️"],
+  ["Nam Tok", "Thailand", "🇹🇭", "Asia", "🍽️"],
+  ["Gaeng Som", "Thailand", "🇹🇭", "Asia", "🍽️"],
+  ["Moo Ping", "Thailand", "🇹🇭", "Asia", "🐖"],
+  ["Khao Pad", "Thailand", "🇹🇭", "Asia", "🍚"],
+  ["Panang Curry", "Thailand", "🇹🇭", "Asia", "🍛"],
+  ["Boat Noodles", "Thailand", "🇹🇭", "Asia", "🍜"],
+  ["Thai Iced Tea", "Thailand", "🇹🇭", "Asia", "☕"],
+  ["Khanom Krok", "Thailand", "🇹🇭", "Asia", "🍽️"],
+  ["Banh Cuon", "Vietnam", "🇻🇳", "Asia", "🍽️"],
+  ["Hu Tieu", "Vietnam", "🇻🇳", "Asia", "🍜"],
+  ["Ca Kho To", "Vietnam", "🇻🇳", "Asia", "🍽️"],
+  ["Cha Ca La Vong", "Vietnam", "🇻🇳", "Asia", "🍽️"],
+  ["Mi Quang", "Vietnam", "🇻🇳", "Asia", "🍜"],
+  ["Bun Rieu", "Vietnam", "🇻🇳", "Asia", "🍜"],
+  ["Xoi", "Vietnam", "🇻🇳", "Asia", "🍚"],
+  ["Banh Canh", "Vietnam", "🇻🇳", "Asia", "🍜"],
+  ["Che", "Vietnam", "🇻🇳", "Asia", "🍮"],
+  ["Bicol Express", "Philippines", "🇵🇭", "Asia", "🍽️"],
+  ["Tinola", "Philippines", "🇵🇭", "Asia", "🍗"],
+  ["Bulalo", "Philippines", "🇵🇭", "Asia", "🐖"],
+  ["Arroz Caldo", "Philippines", "🇵🇭", "Asia", "🍲"],
+  ["Kinilaw", "Philippines", "🇵🇭", "Asia", "🐟"],
+  ["Bibingka", "Philippines", "🇵🇭", "Asia", "🥞"],
+  ["Puto", "Philippines", "🇵🇭", "Asia", "🍽️"],
+  ["Chicken Inasal", "Philippines", "🇵🇭", "Asia", "🍗"],
+  ["Dinuguan", "Philippines", "🇵🇭", "Asia", "🐖"],
+  ["Leche Flan", "Philippines", "🇵🇭", "Asia", "🍮"],
+  ["Tapsilog", "Philippines", "🇵🇭", "Asia", "🍽️"],
+  ["Nasi Kerabu", "Malaysia", "🇲🇾", "Asia", "🍚"],
+  ["Ayam Percik", "Malaysia", "🇲🇾", "Asia", "🍗"],
+  ["Mee Goreng Mamak", "Malaysia", "🇲🇾", "Asia", "🍜"],
+  ["Bak Kut Teh", "Malaysia", "🇲🇾", "Asia", "🍽️"],
+  ["Apam Balik", "Malaysia", "🇲🇾", "Asia", "🥞"],
+  ["Nasi Dagang", "Malaysia", "🇲🇾", "Asia", "🍚"],
+  ["Otak-otak", "Malaysia", "🇲🇾", "Asia", "🐟"],
+  ["Bak Chor Mee", "Singapore", "🇸🇬", "Asia", "🍜"],
+  ["Hokkien Mee", "Singapore", "🇸🇬", "Asia", "🍜"],
+  ["Fish Head Curry", "Singapore", "🇸🇬", "Asia", "🍛"],
+  ["Chai Tow Kway", "Singapore", "🇸🇬", "Asia", "☕"],
+  ["Singapore Rojak", "Singapore", "🇸🇬", "Asia", "🥗"],
+  ["Prawn Mee", "Singapore", "🇸🇬", "Asia", "🍜"],
+  ["Stinky Tofu", "Taiwan", "🇹🇼", "Asia", "🫘"],
+  ["Oyster Omelette", "Taiwan", "🇹🇼", "Asia", "🦐"],
+  ["Pineapple Cake", "Taiwan", "🇹🇼", "Asia", "🍰"],
+  ["Taiwanese Fried Chicken", "Taiwan", "🇹🇼", "Asia", "🍗"],
+  ["Three Cup Chicken", "Taiwan", "🇹🇼", "Asia", "🍗"],
+  ["Danzai Noodles", "Taiwan", "🇹🇼", "Asia", "🍜"],
+  ["Karahi", "Pakistan", "🇵🇰", "Asia", "🍛"],
+  ["Sajji", "Pakistan", "🇵🇰", "Asia", "🥩"],
+  ["Paya", "Pakistan", "🇵🇰", "Asia", "🥩"],
+  ["Seekh Kebab", "Pakistan", "🇵🇰", "Asia", "🍢"],
+  ["Halwa Puri", "Pakistan", "🇵🇰", "Asia", "🍮"],
+  ["Sindhi Biryani", "Pakistan", "🇵🇰", "Asia", "🍚"],
+  ["Saag", "Pakistan", "🇵🇰", "Asia", "🥬"],
+  ["Bhuna Khichuri", "Bangladesh", "🇧🇩", "Asia", "🍚"],
+  ["Panta Bhat", "Bangladesh", "🇧🇩", "Asia", "🍚"],
+  ["Shorshe Ilish", "Bangladesh", "🇧🇩", "Asia", "🐟"],
+  ["Pitha", "Bangladesh", "🇧🇩", "Asia", "🍽️"],
+  ["Bhorta", "Bangladesh", "🇧🇩", "Asia", "🍽️"],
+  ["Mishti Doi", "Bangladesh", "🇧🇩", "Asia", "🍮"],
+  ["Fuchka", "Bangladesh", "🇧🇩", "Asia", "🍽️"],
+  ["Lamprais", "Sri Lanka", "🇱🇰", "Asia", "🍚"],
+  ["Pol Sambol", "Sri Lanka", "🇱🇰", "Asia", "🍽️"],
+  ["Rice and Curry", "Sri Lanka", "🇱🇰", "Asia", "🍛"],
+  ["String Hoppers", "Sri Lanka", "🇱🇰", "Asia", "🍽️"],
+  ["Kiribath", "Sri Lanka", "🇱🇰", "Asia", "🍚"],
+  ["Wattalappam", "Sri Lanka", "🇱🇰", "Asia", "🥞"],
+  ["Fish Ambul Thiyal", "Sri Lanka", "🇱🇰", "Asia", "🐟"],
+  ["Sel Roti", "Nepal", "🇳🇵", "Asia", "🫓"],
+  ["Thukpa", "Nepal", "🇳🇵", "Asia", "🍽️"],
+  ["Gundruk", "Nepal", "🇳🇵", "Asia", "🥬"],
+  ["Chatamari", "Nepal", "🇳🇵", "Asia", "🍽️"],
+  ["Yomari", "Nepal", "🇳🇵", "Asia", "🍽️"],
+  ["Bara", "Nepal", "🇳🇵", "Asia", "🍽️"],
+  ["Phaksha Paa", "Bhutan", "🇧🇹", "Asia", "🍽️"],
+  ["Jasha Maru", "Bhutan", "🇧🇹", "Asia", "🍽️"],
+  ["Kewa Datshi", "Bhutan", "🇧🇹", "Asia", "🫘"],
+  ["Shakam Datshi", "Bhutan", "🇧🇹", "Asia", "🍽️"],
+  ["Garudhiya", "Maldives", "🇲🇻", "Asia", "🍽️"],
+  ["Mas Riha", "Maldives", "🇲🇻", "Asia", "🐟"],
+  ["Bis Keemiya", "Maldives", "🇲🇻", "Asia", "🍽️"],
+  ["Shan Noodles", "Myanmar", "🇲🇲", "Asia", "🍜"],
+  ["Ohn No Khao Swe", "Myanmar", "🇲🇲", "Asia", "🍽️"],
+  ["Htamin Jin", "Myanmar", "🇲🇲", "Asia", "🍽️"],
+  ["Num Banh Chok", "Cambodia", "🇰🇭", "Asia", "🍽️"],
+  ["Kuy Teav", "Cambodia", "🇰🇭", "Asia", "🍜"],
+  ["Bai Sach Chrouk", "Cambodia", "🇰🇭", "Asia", "🍽️"],
+  ["Samlor Korko", "Cambodia", "🇰🇭", "Asia", "🍽️"],
+  ["Prahok Ktis", "Cambodia", "🇰🇭", "Asia", "🍽️"],
+  ["Tam Mak Hoong", "Laos", "🇱🇦", "Asia", "🥗"],
+  ["Khao Niao", "Laos", "🇱🇦", "Asia", "🍚"],
+  ["Or Lam", "Laos", "🇱🇦", "Asia", "🍽️"],
+  ["Mok Pa", "Laos", "🇱🇦", "Asia", "🍽️"],
+  ["Khao Jee Pâté", "Laos", "🇱🇦", "Asia", "🍜"],
+  ["Khuushuur", "Mongolia", "🇲🇳", "Asia", "🥟"],
+  ["Boodog", "Mongolia", "🇲🇳", "Asia", "🍖"],
+  ["Khorkhog", "Mongolia", "🇲🇳", "Asia", "🍖"],
+  ["Tsuivan", "Mongolia", "🇲🇳", "Asia", "🍜"],
+  ["Suutei Tsai", "Mongolia", "🇲🇳", "Asia", "🍽️"],
+  ["Kazy", "Kazakhstan", "🇰🇿", "Asia", "🌭"],
+  ["Baursak", "Kazakhstan", "🇰🇿", "Asia", "🍪"],
+  ["Kurt", "Kazakhstan", "🇰🇿", "Asia", "🍽️"],
+  ["Samsa", "Uzbekistan", "🇺🇿", "Asia", "🥟"],
+  ["Shashlik", "Uzbekistan", "🇺🇿", "Asia", "🍢"],
+  ["Lagman", "Uzbekistan", "🇺🇿", "Asia", "🍜"],
+  ["Shurpa", "Uzbekistan", "🇺🇿", "Asia", "🍽️"],
+  ["Obi Non", "Uzbekistan", "🇺🇿", "Asia", "🫓"],
+  ["Chuchvara", "Uzbekistan", "🇺🇿", "Asia", "🥟"],
+  ["Ashlan-Fu", "Kyrgyzstan", "🇰🇬", "Asia", "🍜"],
+  ["Kesme", "Kyrgyzstan", "🇰🇬", "Asia", "🍜"],
+  ["Boorsok", "Kyrgyzstan", "🇰🇬", "Asia", "🍪"],
+  ["Oshi Palov", "Tajikistan", "🇹🇯", "Asia", "🍚"],
+  ["Sambusa", "Tajikistan", "🇹🇯", "Asia", "🥟"],
+  ["Shirchoy", "Tajikistan", "🇹🇯", "Asia", "☕"],
+  ["Ishlekli", "Turkmenistan", "🇹🇲", "Asia", "🍽️"],
+  ["Gutap", "Turkmenistan", "🇹🇲", "Asia", "🥟"],
+  ["Unash", "Turkmenistan", "🇹🇲", "Asia", "🍽️"],
+  ["Bolani", "Afghanistan", "🇦🇫", "Asia", "🍽️"],
+  ["Ashak", "Afghanistan", "🇦🇫", "Asia", "🍖"],
+  ["Mantu", "Afghanistan", "🇦🇫", "Asia", "🥟"],
+  ["Ikan Sabuko", "Timor-Leste", "🇹🇱", "Asia", "🐟"],
+  ["Tukir", "Timor-Leste", "🇹🇱", "Asia", "🍽️"],
+  ["Nasi Katok", "Brunei", "🇧🇳", "Asia", "🍚"],
+  ["Kelupis", "Brunei", "🇧🇳", "Asia", "🥟"],
+  ["Kibbeh Nayyeh", "Lebanon", "🇱🇧", "Middle East", "🍽️"],
+  ["Kafta", "Lebanon", "🇱🇧", "Middle East", "🍢"],
+  ["Baba Ghanoush", "Lebanon", "🇱🇧", "Middle East", "🍽️"],
+  ["Mujaddara", "Lebanon", "🇱🇧", "Middle East", "🫘"],
+  ["Shish Taouk", "Lebanon", "🇱🇧", "Middle East", "🍢"],
+  ["Labneh", "Lebanon", "🇱🇧", "Middle East", "🍽️"],
+  ["Muhammara", "Syria", "🇸🇾", "Middle East", "🍽️"],
+  ["Fatteh", "Syria", "🇸🇾", "Middle East", "🍽️"],
+  ["Shakriyeh", "Syria", "🇸🇾", "Middle East", "🍽️"],
+  ["Yabrak", "Syria", "🇸🇾", "Middle East", "🍽️"],
+  ["Maftoul", "Palestine", "🇵🇸", "Middle East", "🍽️"],
+  ["Sumagiyyeh", "Palestine", "🇵🇸", "Middle East", "🍽️"],
+  ["Zarb", "Jordan", "🇯🇴", "Middle East", "🍖"],
+  ["Galayet Bandora", "Jordan", "🇯🇴", "Middle East", "🍳"],
+  ["Tashreeb", "Iraq", "🇮🇶", "Middle East", "🍽️"],
+  ["Quzi", "Iraq", "🇮🇶", "Middle East", "🍖"],
+  ["Kleicha", "Iraq", "🇮🇶", "Middle East", "🍪"],
+  ["Iraqi Dolma", "Iraq", "🇮🇶", "Middle East", "🍽️"],
+  ["Joojeh Kabab", "Iran", "🇮🇷", "Middle East", "🍗"],
+  ["Ash Reshteh", "Iran", "🇮🇷", "Middle East", "🍽️"],
+  ["Dizi", "Iran", "🇮🇷", "Middle East", "🍽️"],
+  ["Kashk-e Bademjan", "Iran", "🇮🇷", "Middle East", "🍽️"],
+  ["Sholeh Zard", "Iran", "🇮🇷", "Middle East", "🍮"],
+  ["Zereshk Polo", "Iran", "🇮🇷", "Middle East", "🍚"],
+  ["Saleeg", "Saudi Arabia", "🇸🇦", "Middle East", "🍽️"],
+  ["Mutabbaq", "Saudi Arabia", "🇸🇦", "Middle East", "🍽️"],
+  ["Kleija", "Saudi Arabia", "🇸🇦", "Middle East", "🍪"],
+  ["Fahsa", "Yemen", "🇾🇪", "Middle East", "🍽️"],
+  ["Bint al-Sahn", "Yemen", "🇾🇪", "Middle East", "🍽️"],
+  ["Zurbian", "Yemen", "🇾🇪", "Middle East", "🐟"],
+  ["Luqaimat", "United Arab Emirates", "🇦🇪", "Middle East", "🍪"],
+  ["Balaleet", "United Arab Emirates", "🇦🇪", "Middle East", "🍽️"],
+  ["Thareed", "United Arab Emirates", "🇦🇪", "Middle East", "🍽️"],
+  ["Madrouba", "Qatar", "🇶🇦", "Middle East", "🍖"],
+  ["Gabout", "Kuwait", "🇰🇼", "Middle East", "🍽️"],
+  ["Murabyan", "Kuwait", "🇰🇼", "Middle East", "🍽️"],
+  ["Bahraini Halwa", "Bahrain", "🇧🇭", "Middle East", "🍮"],
+  ["Mashuai", "Oman", "🇴🇲", "Middle East", "🍖"],
+  ["Omani Halwa", "Oman", "🇴🇲", "Middle East", "🍮"],
+  ["Jachnun", "Israel", "🇮🇱", "Middle East", "🍽️"],
+  ["Israeli Salad", "Israel", "🇮🇱", "Middle East", "🥗"],
+  ["Jerusalem Mixed Grill", "Israel", "🇮🇱", "Middle East", "🥬"],
+  ["Malabi", "Israel", "🇮🇱", "Middle East", "🍮"],
+  ["Içli Köfte", "Türkiye", "🇹🇷", "Middle East", "🍢"],
+  ["Pide", "Türkiye", "🇹🇷", "Middle East", "🫓"],
+  ["Börek", "Türkiye", "🇹🇷", "Middle East", "🥧"],
+  ["Kumpir", "Türkiye", "🇹🇷", "Middle East", "🥔"],
+  ["Mercimek Çorbası", "Türkiye", "🇹🇷", "Middle East", "🍽️"],
+  ["Künefe", "Türkiye", "🇹🇷", "Middle East", "🍮"],
+  ["Turkish Delight", "Türkiye", "🇹🇷", "Middle East", "🍪"],
+  ["Hünkâr Beğendi", "Türkiye", "🇹🇷", "Middle East", "🍽️"],
+  ["Imam Bayıldı", "Türkiye", "🇹🇷", "Middle East", "🍽️"],
+  ["Midye Dolma", "Türkiye", "🇹🇷", "Middle East", "🦐"],
+  ["Testi Kebab", "Türkiye", "🇹🇷", "Middle East", "🍢"],
+  ["Fattah", "Egypt", "🇪🇬", "Middle East", "🍽️"],
+  ["Umm Ali", "Egypt", "🇪🇬", "Middle East", "🍮"],
+  ["Mahshi", "Egypt", "🇪🇬", "Middle East", "🍽️"],
+  ["Feteer Meshaltet", "Egypt", "🇪🇬", "Middle East", "🍽️"],
+  ["Hawawshi", "Egypt", "🇪🇬", "Middle East", "🥪"],
+  ["Kleftiko", "Cyprus", "🇨🇾", "Europe", "🍖"],
+  ["Halloumi", "Cyprus", "🇨🇾", "Europe", "🧀"],
+  ["Koupepia", "Cyprus", "🇨🇾", "Europe", "🍽️"],
+  ["Souvla", "Cyprus", "🇨🇾", "Europe", "🍢"],
+  ["Tagliatelle al Ragù", "Italy", "🇮🇹", "Europe", "🍝"],
+  ["Saltimbocca", "Italy", "🇮🇹", "Europe", "🍽️"],
+  ["Panna Cotta", "Italy", "🇮🇹", "Europe", "🍮"],
+  ["Minestrone", "Italy", "🇮🇹", "Europe", "🍽️"],
+  ["Gnocchi", "Italy", "🇮🇹", "Europe", "🍝"],
+  ["Ravioli", "Italy", "🇮🇹", "Europe", "🍝"],
+  ["Carpaccio", "Italy", "🇮🇹", "Europe", "🍽️"],
+  ["Bruschetta", "Italy", "🇮🇹", "Europe", "🍞"],
+  ["Polenta", "Italy", "🇮🇹", "Europe", "🌽"],
+  ["Porchetta", "Italy", "🇮🇹", "Europe", "🐖"],
+  ["Spaghetti alle Vongole", "Italy", "🇮🇹", "Europe", "🍝"],
+  ["Amatriciana", "Italy", "🇮🇹", "Europe", "🍝"],
+  ["Panettone", "Italy", "🇮🇹", "Europe", "🍰"],
+  ["Supplì", "Italy", "🇮🇹", "Europe", "🍽️"],
+  ["Caprese Salad", "Italy", "🇮🇹", "Europe", "🥗"],
+  ["Vitello Tonnato", "Italy", "🇮🇹", "Europe", "🍽️"],
+  ["Pasta alla Norma", "Italy", "🇮🇹", "Europe", "🍝"],
+  ["Biscotti", "Italy", "🇮🇹", "Europe", "🍪"],
+  ["Affogato", "Italy", "🇮🇹", "Europe", "🍮"],
+  ["French Onion Soup", "France", "🇫🇷", "Europe", "🍲"],
+  ["Steak Frites", "France", "🇫🇷", "Europe", "☕"],
+  ["Tarte Tatin", "France", "🇫🇷", "Europe", "🥧"],
+  ["Pot-au-feu", "France", "🇫🇷", "Europe", "🍲"],
+  ["Confit de Canard", "France", "🇫🇷", "Europe", "🍽️"],
+  ["Blanquette de Veau", "France", "🇫🇷", "Europe", "🍽️"],
+  ["Salade Niçoise", "France", "🇫🇷", "Europe", "🥗"],
+  ["Pain au Chocolat", "France", "🇫🇷", "Europe", "🍪"],
+  ["Foie Gras", "France", "🇫🇷", "Europe", "🍽️"],
+  ["Profiteroles", "France", "🇫🇷", "Europe", "🍪"],
+  ["Galette Bretonne", "France", "🇫🇷", "Europe", "🥞"],
+  ["Tartiflette", "France", "🇫🇷", "Europe", "🥧"],
+  ["Madeleine", "France", "🇫🇷", "Europe", "🍪"],
+  ["Choucroute Garnie", "France", "🇫🇷", "Europe", "🍲"],
+  ["Éclair", "France", "🇫🇷", "Europe", "🍪"],
+  ["Socca", "France", "🇫🇷", "Europe", "🍽️"],
+  ["Fabada Asturiana", "Spain", "🇪🇸", "Europe", "🫘"],
+  ["Pulpo a la Gallega", "Spain", "🇪🇸", "Europe", "🦐"],
+  ["Pisto", "Spain", "🇪🇸", "Europe", "🍽️"],
+  ["Cocido Madrileño", "Spain", "🇪🇸", "Europe", "🍲"],
+  ["Salmorejo", "Spain", "🇪🇸", "Europe", "🍽️"],
+  ["Crema Catalana", "Spain", "🇪🇸", "Europe", "🍮"],
+  ["Pan con Tomate", "Spain", "🇪🇸", "Europe", "🍞"],
+  ["Gambas al Ajillo", "Spain", "🇪🇸", "Europe", "🦐"],
+  ["Pintxos", "Spain", "🇪🇸", "Europe", "🍽️"],
+  ["Turrón", "Spain", "🇪🇸", "Europe", "🍪"],
+  ["Caldo Verde", "Portugal", "🇵🇹", "Europe", "🍲"],
+  ["Cozido à Portuguesa", "Portugal", "🇵🇹", "Europe", "🍽️"],
+  ["Sardinhas Assadas", "Portugal", "🇵🇹", "Europe", "🐟"],
+  ["Bifana", "Portugal", "🇵🇹", "Europe", "🥪"],
+  ["Arroz de Marisco", "Portugal", "🇵🇹", "Europe", "🍚"],
+  ["Alheira", "Portugal", "🇵🇹", "Europe", "🌭"],
+  ["Polvo à Lagareiro", "Portugal", "🇵🇹", "Europe", "🦐"],
+  ["Bangers and Mash", "United Kingdom", "🇬🇧", "Europe", "🍽️"],
+  ["Beef Wellington", "United Kingdom", "🇬🇧", "Europe", "🥩"],
+  ["Yorkshire Pudding", "United Kingdom", "🇬🇧", "Europe", "🍮"],
+  ["Ploughman's Lunch", "United Kingdom", "🇬🇧", "Europe", "🍽️"],
+  ["Eton Mess", "United Kingdom", "🇬🇧", "Europe", "🍮"],
+  ["Welsh Rarebit", "United Kingdom", "🇬🇧", "Europe", "🍽️"],
+  ["Toad in the Hole", "United Kingdom", "🇬🇧", "Europe", "🍽️"],
+  ["Scotch Egg", "United Kingdom", "🇬🇧", "Europe", "🍳"],
+  ["Cullen Skink", "United Kingdom", "🇬🇧", "Europe", "🐟"],
+  ["Lancashire Hotpot", "United Kingdom", "🇬🇧", "Europe", "🍽️"],
+  ["Crumpets", "United Kingdom", "🇬🇧", "Europe", "🍽️"],
+  ["Trifle", "United Kingdom", "🇬🇧", "Europe", "🍮"],
+  ["Boxty", "Ireland", "🇮🇪", "Europe", "🥞"],
+  ["Soda Bread", "Ireland", "🇮🇪", "Europe", "🫓"],
+  ["Coddle", "Ireland", "🇮🇪", "Europe", "🍲"],
+  ["Barmbrack", "Ireland", "🇮🇪", "Europe", "🍽️"],
+  ["Schweinshaxe", "Germany", "🇩🇪", "Europe", "🐖"],
+  ["Rouladen", "Germany", "🇩🇪", "Europe", "🥩"],
+  ["Kartoffelsalat", "Germany", "🇩🇪", "Europe", "🥗"],
+  ["Sauerkraut", "Germany", "🇩🇪", "Europe", "🍽️"],
+  ["Königsberger Klopse", "Germany", "🇩🇪", "Europe", "🍽️"],
+  ["Maultaschen", "Germany", "🇩🇪", "Europe", "🍽️"],
+  ["Leberkäse", "Germany", "🇩🇪", "Europe", "🌭"],
+  ["Stollen", "Germany", "🇩🇪", "Europe", "🍰"],
+  ["Weisswurst", "Germany", "🇩🇪", "Europe", "🌭"],
+  ["Eisbein", "Germany", "🇩🇪", "Europe", "🐖"],
+  ["Labskaus", "Germany", "🇩🇪", "Europe", "🍲"],
+  ["Tafelspitz", "Austria", "🇦🇹", "Europe", "🥩"],
+  ["Kaiserschmarrn", "Austria", "🇦🇹", "Europe", "🥞"],
+  ["Linzer Torte", "Austria", "🇦🇹", "Europe", "🍰"],
+  ["Germknödel", "Austria", "🇦🇹", "Europe", "🥟"],
+  ["Zürcher Geschnetzeltes", "Switzerland", "🇨🇭", "Europe", "🍽️"],
+  ["Älplermagronen", "Switzerland", "🇨🇭", "Europe", "🍝"],
+  ["Birchermüesli", "Switzerland", "🇨🇭", "Europe", "🍽️"],
+  ["Basler Läckerli", "Switzerland", "🇨🇭", "Europe", "🍪"],
+  ["Stamppot", "Netherlands", "🇳🇱", "Europe", "🥔"],
+  ["Poffertjes", "Netherlands", "🇳🇱", "Europe", "🥞"],
+  ["Erwtensoep", "Netherlands", "🇳🇱", "Europe", "🍲"],
+  ["Kibbeling", "Netherlands", "🇳🇱", "Europe", "🐟"],
+  ["Oliebollen", "Netherlands", "🇳🇱", "Europe", "🍪"],
+  ["Hagelslag", "Netherlands", "🇳🇱", "Europe", "🍽️"],
+  ["Carbonade Flamande", "Belgium", "🇧🇪", "Europe", "🍽️"],
+  ["Waterzooi", "Belgium", "🇧🇪", "Europe", "🍽️"],
+  ["Speculoos", "Belgium", "🇧🇪", "Europe", "🍪"],
+  ["Stoemp", "Belgium", "🇧🇪", "Europe", "🥔"],
+  ["Gromperekichelcher", "Luxembourg", "🇱🇺", "Europe", "🥔"],
+  ["Bouneschlupp", "Luxembourg", "🇱🇺", "Europe", "🍲"],
+  ["Kniddelen", "Luxembourg", "🇱🇺", "Europe", "🥟"],
+  ["Pastitsio", "Greece", "🇬🇷", "Europe", "🥧"],
+  ["Dolmades", "Greece", "🇬🇷", "Europe", "🍽️"],
+  ["Tzatziki", "Greece", "🇬🇷", "Europe", "🍽️"],
+  ["Avgolemono", "Greece", "🇬🇷", "Europe", "🍲"],
+  ["Loukoumades", "Greece", "🇬🇷", "Europe", "🍪"],
+  ["Fasolada", "Greece", "🇬🇷", "Europe", "🍲"],
+  ["Galaktoboureko", "Greece", "🇬🇷", "Europe", "🍽️"],
+  ["Saganaki", "Greece", "🇬🇷", "Europe", "🧀"],
+  ["Gołąbki", "Poland", "🇵🇱", "Europe", "🍽️"],
+  ["Kotlet Schabowy", "Poland", "🇵🇱", "Europe", "🍽️"],
+  ["Pączki", "Poland", "🇵🇱", "Europe", "🍪"],
+  ["Oscypek", "Poland", "🇵🇱", "Europe", "🧀"],
+  ["Rosół", "Poland", "🇵🇱", "Europe", "🍽️"],
+  ["Placki Ziemniaczane", "Poland", "🇵🇱", "Europe", "🥞"],
+  ["Shchi", "Russia", "🇷🇺", "Europe", "🍲"],
+  ["Olivier Salad", "Russia", "🇷🇺", "Europe", "🥗"],
+  ["Pirozhki", "Russia", "🇷🇺", "Europe", "🥟"],
+  ["Syrniki", "Russia", "🇷🇺", "Europe", "🥞"],
+  ["Solyanka", "Russia", "🇷🇺", "Europe", "🍲"],
+  ["Kasha", "Russia", "🇷🇺", "Europe", "🍽️"],
+  ["Medovik", "Russia", "🇷🇺", "Europe", "🍰"],
+  ["Kulebyaka", "Russia", "🇷🇺", "Europe", "🥧"],
+  ["Holubtsi", "Ukraine", "🇺🇦", "Europe", "🍽️"],
+  ["Salo", "Ukraine", "🇺🇦", "Europe", "🐖"],
+  ["Deruny", "Ukraine", "🇺🇦", "Europe", "🥞"],
+  ["Chicken Kyiv", "Ukraine", "🇺🇦", "Europe", "🍗"],
+  ["Kapusniak", "Ukraine", "🇺🇦", "Europe", "🍽️"],
+  ["Pampushky", "Ukraine", "🇺🇦", "Europe", "🍪"],
+  ["Kutia", "Ukraine", "🇺🇦", "Europe", "🍮"],
+  ["Machanka", "Belarus", "🇧🇾", "Europe", "🥩"],
+  ["Kalduny", "Belarus", "🇧🇾", "Europe", "🥟"],
+  ["Potato Babka", "Belarus", "🇧🇾", "Europe", "🍰"],
+  ["Šaltibarščiai", "Lithuania", "🇱🇹", "Europe", "🍲"],
+  ["Kibinai", "Lithuania", "🇱🇹", "Europe", "🥟"],
+  ["Šakotis", "Lithuania", "🇱🇹", "Europe", "🍰"],
+  ["Kugelis", "Lithuania", "🇱🇹", "Europe", "🥔"],
+  ["Sklandrausis", "Latvia", "🇱🇻", "Europe", "🍽️"],
+  ["Pīrāgi", "Latvia", "🇱🇻", "Europe", "🥟"],
+  ["Rupjmaize", "Latvia", "🇱🇻", "Europe", "🫓"],
+  ["Mulgipuder", "Estonia", "🇪🇪", "Europe", "🍽️"],
+  ["Kama", "Estonia", "🇪🇪", "Europe", "🍽️"],
+  ["Kiluvõileib", "Estonia", "🇪🇪", "Europe", "🍞"],
+  ["Kalakukko", "Finland", "🇫🇮", "Europe", "🥧"],
+  ["Lohikeitto", "Finland", "🇫🇮", "Europe", "🍲"],
+  ["Poronkäristys", "Finland", "🇫🇮", "Europe", "🍽️"],
+  ["Mämmi", "Finland", "🇫🇮", "Europe", "🍮"],
+  ["Korvapuusti", "Finland", "🇫🇮", "Europe", "🍪"],
+  ["Gravlax", "Sweden", "🇸🇪", "Europe", "🐟"],
+  ["Smörgåstårta", "Sweden", "🇸🇪", "Europe", "🍰"],
+  ["Surströmming", "Sweden", "🇸🇪", "Europe", "🐟"],
+  ["Pyttipanna", "Sweden", "🇸🇪", "Europe", "🥔"],
+  ["Prinsesstårta", "Sweden", "🇸🇪", "Europe", "🍰"],
+  ["Ärtsoppa", "Sweden", "🇸🇪", "Europe", "🍲"],
+  ["Lutefisk", "Norway", "🇳🇴", "Europe", "🐟"],
+  ["Brunost", "Norway", "🇳🇴", "Europe", "🧀"],
+  ["Raspeball", "Norway", "🇳🇴", "Europe", "🥔"],
+  ["Kjøttkaker", "Norway", "🇳🇴", "Europe", "🍽️"],
+  ["Lefse", "Norway", "🇳🇴", "Europe", "🫓"],
+  ["Frikadeller", "Denmark", "🇩🇰", "Europe", "🍽️"],
+  ["Stegt Flæsk", "Denmark", "🇩🇰", "Europe", "🐖"],
+  ["Æbleskiver", "Denmark", "🇩🇰", "Europe", "🥞"],
+  ["Wienerbrød", "Denmark", "🇩🇰", "Europe", "🍪"],
+  ["Rødgrød med Fløde", "Denmark", "🇩🇰", "Europe", "🍮"],
+  ["Hákarl", "Iceland", "🇮🇸", "Europe", "🐟"],
+  ["Kjötsúpa", "Iceland", "🇮🇸", "Europe", "🍲"],
+  ["Skyr", "Iceland", "🇮🇸", "Europe", "🍽️"],
+  ["Pylsur", "Iceland", "🇮🇸", "Europe", "🌭"],
+  ["Vepřo Knedlo Zelo", "Czechia", "🇨🇿", "Europe", "🍽️"],
+  ["Kulajda", "Czechia", "🇨🇿", "Europe", "🍲"],
+  ["Smažený Sýr", "Czechia", "🇨🇿", "Europe", "🧀"],
+  ["Koláče", "Czechia", "🇨🇿", "Europe", "🍪"],
+  ["Kapustnica", "Slovakia", "🇸🇰", "Europe", "🍲"],
+  ["Lokše", "Slovakia", "🇸🇰", "Europe", "🍽️"],
+  ["Pirohy", "Slovakia", "🇸🇰", "Europe", "🥟"],
+  ["Paprikás Csirke", "Hungary", "🇭🇺", "Europe", "🍽️"],
+  ["Halászlé", "Hungary", "🇭🇺", "Europe", "🐟"],
+  ["Dobos Torte", "Hungary", "🇭🇺", "Europe", "🍰"],
+  ["Kürtőskalács", "Hungary", "🇭🇺", "Europe", "🍰"],
+  ["Töltött Káposzta", "Hungary", "🇭🇺", "Europe", "🍽️"],
+  ["Rakott Krumpli", "Hungary", "🇭🇺", "Europe", "🥔"],
+  ["Mici", "Romania", "🇷🇴", "Europe", "🌭"],
+  ["Ciorbă de Burtă", "Romania", "🇷🇴", "Europe", "🍲"],
+  ["Papanași", "Romania", "🇷🇴", "Europe", "🍪"],
+  ["Cozonac", "Romania", "🇷🇴", "Europe", "🍰"],
+  ["Zacuscă", "Romania", "🇷🇴", "Europe", "🍽️"],
+  ["Shopska Salad", "Bulgaria", "🇧🇬", "Europe", "🥗"],
+  ["Kavarma", "Bulgaria", "🇧🇬", "Europe", "🥩"],
+  ["Tarator", "Bulgaria", "🇧🇬", "Europe", "🍲"],
+  ["Lyutenitsa", "Bulgaria", "🇧🇬", "Europe", "🍽️"],
+  ["Kebapche", "Bulgaria", "🇧🇬", "Europe", "🌭"],
+  ["Pljeskavica", "Serbia", "🇷🇸", "Europe", "🍢"],
+  ["Karađorđeva Šnicla", "Serbia", "🇷🇸", "Europe", "🍽️"],
+  ["Ajvar", "Serbia", "🇷🇸", "Europe", "🍽️"],
+  ["Proja", "Serbia", "🇷🇸", "Europe", "🌽"],
+  ["Crni Rižot", "Croatia", "🇭🇷", "Europe", "🍚"],
+  ["Štrukli", "Croatia", "🇭🇷", "Europe", "🍽️"],
+  ["Pašticada", "Croatia", "🇭🇷", "Europe", "🍽️"],
+  ["Fritule", "Croatia", "🇭🇷", "Europe", "🍪"],
+  ["Brudet", "Croatia", "🇭🇷", "Europe", "🐟"],
+  ["Kranjska Klobasa", "Slovenia", "🇸🇮", "Europe", "🌭"],
+  ["Idrijski Žlikrofi", "Slovenia", "🇸🇮", "Europe", "🥟"],
+  ["Prekmurska Gibanica", "Slovenia", "🇸🇮", "Europe", "🍰"],
+  ["Jota", "Slovenia", "🇸🇮", "Europe", "🐟"],
+  ["Begova Čorba", "Bosnia and Herzegovina", "🇧🇦", "Europe", "🍲"],
+  ["Klepe", "Bosnia and Herzegovina", "🇧🇦", "Europe", "🥟"],
+  ["Tufahija", "Bosnia and Herzegovina", "🇧🇦", "Europe", "🍮"],
+  ["Bosanski Lonac", "Bosnia and Herzegovina", "🇧🇦", "Europe", "🍲"],
+  ["Njeguški Pršut", "Montenegro", "🇲🇪", "Europe", "🍽️"],
+  ["Popeci", "Montenegro", "🇲🇪", "Europe", "🍽️"],
+  ["Pastrmajlija", "North Macedonia", "🇲🇰", "Europe", "🥩"],
+  ["Selsko Meso", "North Macedonia", "🇲🇰", "Europe", "🥩"],
+  ["Fërgesë", "Albania", "🇦🇱", "Europe", "🍽️"],
+  ["Byrek", "Albania", "🇦🇱", "Europe", "🥧"],
+  ["Qofte", "Albania", "🇦🇱", "Europe", "🍢"],
+  ["Tavë Dheu", "Albania", "🇦🇱", "Europe", "🍽️"],
+  ["Pite", "Kosovo", "🇽🇰", "Europe", "🥧"],
+  ["Tavë Prizreni", "Kosovo", "🇽🇰", "Europe", "🍚"],
+  ["Plăcinte", "Moldova", "🇲🇩", "Europe", "🍽️"],
+  ["Zeamă", "Moldova", "🇲🇩", "Europe", "🍲"],
+  ["Ftira", "Malta", "🇲🇹", "Europe", "🫓"],
+  ["Stuffat tal-Fenek", "Malta", "🇲🇹", "Europe", "🍽️"],
+  ["Ħobż biż-Żejt", "Malta", "🇲🇹", "Europe", "🍽️"],
+  ["Imqaret", "Malta", "🇲🇹", "Europe", "🍪"],
+  ["Stocafi", "Monaco", "🇲🇨", "Europe", "🐟"],
+  ["Fougasse Monégasque", "Monaco", "🇲🇨", "Europe", "🫓"],
+  ["Piadina", "San Marino", "🇸🇲", "Europe", "🫓"],
+  ["Nidi di Rondine", "San Marino", "🇸🇲", "Europe", "🍽️"],
+  ["Escudella", "Andorra", "🇦🇩", "Europe", "🍽️"],
+  ["Ribel", "Liechtenstein", "🇱🇮", "Europe", "🍽️"],
+  ["Hafalaab", "Liechtenstein", "🇱🇮", "Europe", "🍽️"],
+  ["Badrijani Nigvzit", "Georgia", "🇬🇪", "Europe", "🍽️"],
+  ["Pkhali", "Georgia", "🇬🇪", "Europe", "🥗"],
+  ["Mtsvadi", "Georgia", "🇬🇪", "Europe", "🍢"],
+  ["Lobio", "Georgia", "🇬🇪", "Europe", "🫘"],
+  ["Chakapuli", "Georgia", "🇬🇪", "Europe", "🥩"],
+  ["Churchkhela", "Georgia", "🇬🇪", "Europe", "🍪"],
+  ["Harissa", "Armenia", "🇦🇲", "Europe", "🍽️"],
+  ["Ghapama", "Armenia", "🇦🇲", "Europe", "🥞"],
+  ["Lavash", "Armenia", "🇦🇲", "Europe", "🫓"],
+  ["Gata", "Armenia", "🇦🇲", "Europe", "🍪"],
+  ["Khash", "Armenia", "🇦🇲", "Europe", "🍽️"],
+  ["Shah Plov", "Azerbaijan", "🇦🇿", "Europe", "🍚"],
+  ["Qutab", "Azerbaijan", "🇦🇿", "Europe", "🍽️"],
+  ["Piti", "Azerbaijan", "🇦🇿", "Europe", "🍖"],
+  ["Dushbara", "Azerbaijan", "🇦🇿", "Europe", "🍽️"],
+  ["Philly Cheesesteak", "United States", "🇺🇸", "Americas", "🥪"],
+  ["Lobster Roll", "United States", "🇺🇸", "Americas", "🦐"],
+  ["Jambalaya", "United States", "🇺🇸", "Americas", "🍽️"],
+  ["Cornbread", "United States", "🇺🇸", "Americas", "🫓"],
+  ["Biscuits and Gravy", "United States", "🇺🇸", "Americas", "🍪"],
+  ["Key Lime Pie", "United States", "🇺🇸", "Americas", "🥧"],
+  ["Pecan Pie", "United States", "🇺🇸", "Americas", "🥧"],
+  ["S'mores", "United States", "🇺🇸", "Americas", "🍪"],
+  ["Meatloaf", "United States", "🇺🇸", "Americas", "🍽️"],
+  ["Chicago Deep-Dish Pizza", "United States", "🇺🇸", "Americas", "🍕"],
+  ["Brownie", "United States", "🇺🇸", "Americas", "🍪"],
+  ["Pulled Pork Sandwich", "United States", "🇺🇸", "Americas", "🥪"],
+  ["Reuben Sandwich", "United States", "🇺🇸", "Americas", "🥪"],
+  ["Cobb Salad", "United States", "🇺🇸", "Americas", "🥗"],
+  ["Grits", "United States", "🇺🇸", "Americas", "🍽️"],
+  ["Corn Dog", "United States", "🇺🇸", "Americas", "🌽"],
+  ["Peanut Butter and Jelly", "United States", "🇺🇸", "Americas", "🥜"],
+  ["Poke", "United States", "🇺🇸", "Americas", "🍽️"],
+  ["Roast Turkey", "United States", "🇺🇸", "Americas", "🍽️"],
+  ["Tacos al Pastor", "Mexico", "🇲🇽", "Americas", "🌮"],
+  ["Chilaquiles", "Mexico", "🇲🇽", "Americas", "🍽️"],
+  ["Sopes", "Mexico", "🇲🇽", "Americas", "🌮"],
+  ["Tlayudas", "Mexico", "🇲🇽", "Americas", "🌮"],
+  ["Menudo", "Mexico", "🇲🇽", "Americas", "🍲"],
+  ["Birria", "Mexico", "🇲🇽", "Americas", "🍽️"],
+  ["Huevos Rancheros", "Mexico", "🇲🇽", "Americas", "🍳"],
+  ["Tostadas", "Mexico", "🇲🇽", "Americas", "🌮"],
+  ["Flautas", "Mexico", "🇲🇽", "Americas", "🌮"],
+  ["Carnitas", "Mexico", "🇲🇽", "Americas", "🐖"],
+  ["Barbacoa", "Mexico", "🇲🇽", "Americas", "🍽️"],
+  ["Tres Leches Cake", "Mexico", "🇲🇽", "Americas", "🍰"],
+  ["Conchas", "Mexico", "🇲🇽", "Americas", "🦐"],
+  ["Tourtière", "Canada", "🇨🇦", "Americas", "🥧"],
+  ["Montreal-style Bagel", "Canada", "🇨🇦", "Americas", "🍽️"],
+  ["Peameal Bacon", "Canada", "🇨🇦", "Americas", "🍽️"],
+  ["BeaverTails", "Canada", "🇨🇦", "Americas", "🍪"],
+  ["Saskatoon Berry Pie", "Canada", "🇨🇦", "Americas", "🥧"],
+  ["Bannock", "Canada", "🇨🇦", "Americas", "🫓"],
+  ["Vatapá", "Brazil", "🇧🇷", "Americas", "🍽️"],
+  ["Acarajé", "Brazil", "🇧🇷", "Americas", "🍽️"],
+  ["Farofa", "Brazil", "🇧🇷", "Americas", "🍽️"],
+  ["Bobó de Camarão", "Brazil", "🇧🇷", "Americas", "🦐"],
+  ["Feijão Tropeiro", "Brazil", "🇧🇷", "Americas", "🫘"],
+  ["Quindim", "Brazil", "🇧🇷", "Americas", "🍰"],
+  ["Pastel", "Brazil", "🇧🇷", "Americas", "🥟"],
+  ["Tapioca", "Brazil", "🇧🇷", "Americas", "🍽️"],
+  ["Locro", "Argentina", "🇦🇷", "Americas", "🍽️"],
+  ["Provoleta", "Argentina", "🇦🇷", "Americas", "🧀"],
+  ["Alfajores", "Argentina", "🇦🇷", "Americas", "🍪"],
+  ["Dulce de Leche", "Argentina", "🇦🇷", "Americas", "🍮"],
+  ["Chimichurri", "Argentina", "🇦🇷", "Americas", "🍽️"],
+  ["Matambre", "Argentina", "🇦🇷", "Americas", "🥩"],
+  ["Humita", "Argentina", "🇦🇷", "Americas", "🌽"],
+  ["Rocoto Relleno", "Peru", "🇵🇪", "Americas", "🍽️"],
+  ["Papa a la Huancaína", "Peru", "🇵🇪", "Americas", "🥔"],
+  ["Pollo a la Brasa", "Peru", "🇵🇪", "Americas", "🍗"],
+  ["Arroz Chaufa", "Peru", "🇵🇪", "Americas", "🍚"],
+  ["Picarones", "Peru", "🇵🇪", "Americas", "🍪"],
+  ["Cuy", "Peru", "🇵🇪", "Americas", "🍽️"],
+  ["Suspiro a la Limeña", "Peru", "🇵🇪", "Americas", "🍮"],
+  ["Tiradito", "Peru", "🇵🇪", "Americas", "🐟"],
+  ["Lechona", "Colombia", "🇨🇴", "Americas", "🐖"],
+  ["Changua", "Colombia", "🇨🇴", "Americas", "🍽️"],
+  ["Buñuelos", "Colombia", "🇨🇴", "Americas", "🍪"],
+  ["Tamal Tolimense", "Colombia", "🇨🇴", "Americas", "🌽"],
+  ["Posta Negra", "Colombia", "🇨🇴", "Americas", "🥩"],
+  ["Obleas", "Colombia", "🇨🇴", "Americas", "🍽️"],
+  ["Curanto", "Chile", "🇨🇱", "Americas", "🍽️"],
+  ["Porotos Granados", "Chile", "🇨🇱", "Americas", "🍽️"],
+  ["Sopaipilla", "Chile", "🇨🇱", "Americas", "🍲"],
+  ["Chorrillana", "Chile", "🇨🇱", "Americas", "🍽️"],
+  ["Pebre", "Chile", "🇨🇱", "Americas", "🍽️"],
+  ["Empanada de Pino", "Chile", "🇨🇱", "Americas", "🥟"],
+  ["Cachapa", "Venezuela", "🇻🇪", "Americas", "🥞"],
+  ["Tequeños", "Venezuela", "🇻🇪", "Americas", "🍽️"],
+  ["Patacón Maracucho", "Venezuela", "🇻🇪", "Americas", "🍌"],
+  ["Asado Negro", "Venezuela", "🇻🇪", "Americas", "🥩"],
+  ["Pan de Jamón", "Venezuela", "🇻🇪", "Americas", "🫓"],
+  ["Fanesca", "Ecuador", "🇪🇨", "Americas", "🍲"],
+  ["Hornado", "Ecuador", "🇪🇨", "Americas", "🍽️"],
+  ["Seco de Chivo", "Ecuador", "🇪🇨", "Americas", "🍖"],
+  ["Bolón de Verde", "Ecuador", "🇪🇨", "Americas", "🍌"],
+  ["Ecuadorian Ceviche", "Ecuador", "🇪🇨", "Americas", "🐟"],
+  ["Sajta de Pollo", "Bolivia", "🇧🇴", "Americas", "🍗"],
+  ["Pique Macho", "Bolivia", "🇧🇴", "Americas", "🥩"],
+  ["Api", "Bolivia", "🇧🇴", "Americas", "☕"],
+  ["Sopa de Maní", "Bolivia", "🇧🇴", "Americas", "🍲"],
+  ["Chairo", "Bolivia", "🇧🇴", "Americas", "🍲"],
+  ["Torta Frita", "Uruguay", "🇺🇾", "Americas", "🍪"],
+  ["Pascualina", "Uruguay", "🇺🇾", "Americas", "🥧"],
+  ["Sopa Paraguaya", "Paraguay", "🇵🇾", "Americas", "🍲"],
+  ["Chipa Guasu", "Paraguay", "🇵🇾", "Americas", "🌽"],
+  ["Mbejú", "Paraguay", "🇵🇾", "Americas", "🍽️"],
+  ["Vori Vori", "Paraguay", "🇵🇾", "Americas", "🍲"],
+  ["Pira Caldo", "Paraguay", "🇵🇾", "Americas", "🍲"],
+  ["Moros y Cristianos", "Cuba", "🇨🇺", "Americas", "🫘"],
+  ["Picadillo", "Cuba", "🇨🇺", "Americas", "🥩"],
+  ["Tostones", "Cuba", "🇨🇺", "Americas", "🍌"],
+  ["Lechón Asado", "Cuba", "🇨🇺", "Americas", "🐖"],
+  ["Yuca con Mojo", "Cuba", "🇨🇺", "Americas", "🍽️"],
+  ["La Bandera", "Dominican Republic", "🇩🇴", "Americas", "🍚"],
+  ["Locrio", "Dominican Republic", "🇩🇴", "Americas", "🍚"],
+  ["Habichuelas con Dulce", "Dominican Republic", "🇩🇴", "Americas", "🫘"],
+  ["Diri ak Djon Djon", "Haiti", "🇭🇹", "Americas", "🍽️"],
+  ["Soup Joumou", "Haiti", "🇭🇹", "Americas", "🍲"],
+  ["Pikliz", "Haiti", "🇭🇹", "Americas", "🍽️"],
+  ["Lalo", "Haiti", "🇭🇹", "Americas", "🍽️"],
+  ["Curry Goat", "Jamaica", "🇯🇲", "Americas", "🍛"],
+  ["Rice and Peas", "Jamaica", "🇯🇲", "Americas", "🍚"],
+  ["Escovitch Fish", "Jamaica", "🇯🇲", "Americas", "🐟"],
+  ["Festival", "Jamaica", "🇯🇲", "Americas", "🫓"],
+  ["Bammy", "Jamaica", "🇯🇲", "Americas", "🫓"],
+  ["Oxtail Stew", "Jamaica", "🇯🇲", "Americas", "🥩"],
+  ["Trini Roti", "Trinidad and Tobago", "🇹🇹", "Americas", "🫓"],
+  ["Pelau", "Trinidad and Tobago", "🇹🇹", "Americas", "🍽️"],
+  ["Bake and Shark", "Trinidad and Tobago", "🇹🇹", "Americas", "🐟"],
+  ["Pholourie", "Trinidad and Tobago", "🇹🇹", "Americas", "🍜"],
+  ["Callaloo", "Trinidad and Tobago", "🇹🇹", "Americas", "🥔"],
+  ["Kak'ik", "Guatemala", "🇬🇹", "Americas", "🍽️"],
+  ["Jocón", "Guatemala", "🇬🇹", "Americas", "🍽️"],
+  ["Tamales Colorados", "Guatemala", "🇬🇹", "Americas", "🌽"],
+  ["Rellenitos", "Guatemala", "🇬🇹", "Americas", "🍽️"],
+  ["Sopa de Caracol", "Honduras", "🇭🇳", "Americas", "🍲"],
+  ["Tapado", "Honduras", "🇭🇳", "Americas", "🍽️"],
+  ["Sopa de Pata", "El Salvador", "🇸🇻", "Americas", "🍲"],
+  ["Yuca Frita", "El Salvador", "🇸🇻", "Americas", "🍽️"],
+  ["Panes con Pollo", "El Salvador", "🇸🇻", "Americas", "🍗"],
+  ["Nacatamal", "Nicaragua", "🇳🇮", "Americas", "🌽"],
+  ["Indio Viejo", "Nicaragua", "🇳🇮", "Americas", "🍽️"],
+  ["Quesillo", "Nicaragua", "🇳🇮", "Americas", "🧀"],
+  ["Vaho", "Nicaragua", "🇳🇮", "Americas", "🍽️"],
+  ["Casado", "Costa Rica", "🇨🇷", "Americas", "🥩"],
+  ["Olla de Carne", "Costa Rica", "🇨🇷", "Americas", "🍲"],
+  ["Chifrijo", "Costa Rica", "🇨🇷", "Americas", "🍽️"],
+  ["Carimañola", "Panama", "🇵🇦", "Americas", "🍽️"],
+  ["Patacones", "Panama", "🇵🇦", "Americas", "🌮"],
+  ["Hojaldras", "Panama", "🇵🇦", "Americas", "🍽️"],
+  ["Tamal de Olla", "Panama", "🇵🇦", "Americas", "🌽"],
+  ["Hudut", "Belize", "🇧🇿", "Americas", "🍲"],
+  ["Boil Up", "Belize", "🇧🇿", "Americas", "🍲"],
+  ["Fry Jacks", "Belize", "🇧🇿", "Americas", "🫓"],
+  ["Garnaches", "Belize", "🇧🇿", "Americas", "🌮"],
+  ["Metemgee", "Guyana", "🇬🇾", "Americas", "🍲"],
+  ["Cook-up Rice", "Guyana", "🇬🇾", "Americas", "🍚"],
+  ["Garlic Pork", "Guyana", "🇬🇾", "Americas", "🐖"],
+  ["Moksi Alesi", "Suriname", "🇸🇷", "Americas", "🍽️"],
+  ["Pastei", "Suriname", "🇸🇷", "Americas", "🥧"],
+  ["Surinamese Roti", "Suriname", "🇸🇷", "Americas", "🫓"],
+  ["Pudding and Souse", "Barbados", "🇧🇧", "Americas", "🍮"],
+  ["Bajan Fish Cakes", "Barbados", "🇧🇧", "Americas", "🍰"],
+  ["Macaroni Pie", "Barbados", "🇧🇧", "Americas", "🍝"],
+  ["Cracked Conch", "Bahamas", "🇧🇸", "Americas", "🦐"],
+  ["Johnny Cake", "Bahamas", "🇧🇸", "Americas", "🍰"],
+  ["Guava Duff", "Bahamas", "🇧🇸", "Americas", "🍮"],
+  ["Lambie", "Grenada", "🇬🇩", "Americas", "🦐"],
+  ["Efo Riro", "Nigeria", "🇳🇬", "Africa", "🥬"],
+  ["Ofada Stew", "Nigeria", "🇳🇬", "Africa", "🍲"],
+  ["Akara", "Nigeria", "🇳🇬", "Africa", "🫘"],
+  ["Amala", "Nigeria", "🇳🇬", "Africa", "🌽"],
+  ["Banga Soup", "Nigeria", "🇳🇬", "Africa", "🍲"],
+  ["Pepper Soup", "Nigeria", "🇳🇬", "Africa", "🍲"],
+  ["Chin Chin", "Nigeria", "🇳🇬", "Africa", "🍪"],
+  ["Ewa Agoyin", "Nigeria", "🇳🇬", "Africa", "🫘"],
+  ["Dodo", "Nigeria", "🇳🇬", "Africa", "🍌"],
+  ["Tuwo Shinkafa", "Nigeria", "🇳🇬", "Africa", "🍽️"],
+  ["Ofe Onugbu", "Nigeria", "🇳🇬", "Africa", "🥬"],
+  ["Masa", "Nigeria", "🇳🇬", "Africa", "🍽️"],
+  ["Red Red", "Ghana", "🇬🇭", "Africa", "🫘"],
+  ["Kenkey", "Ghana", "🇬🇭", "Africa", "🌽"],
+  ["Shito", "Ghana", "🇬🇭", "Africa", "🍽️"],
+  ["Groundnut Soup", "Ghana", "🇬🇭", "Africa", "🍲"],
+  ["Tuo Zaafi", "Ghana", "🇬🇭", "Africa", "🌽"],
+  ["Kontomire Stew", "Ghana", "🇬🇭", "Africa", "🥬"],
+  ["Pastels", "Senegal", "🇸🇳", "Africa", "🥟"],
+  ["Thiakry", "Senegal", "🇸🇳", "Africa", "🍮"],
+  ["Ndambé", "Senegal", "🇸🇳", "Africa", "🍽️"],
+  ["Caldou", "Senegal", "🇸🇳", "Africa", "🍲"],
+  ["Garba", "Côte d'Ivoire", "🇨🇮", "Africa", "🍽️"],
+  ["Kedjenou", "Côte d'Ivoire", "🇨🇮", "Africa", "🍗"],
+  ["Foutou", "Côte d'Ivoire", "🇨🇮", "Africa", "🌽"],
+  ["Sauce Graine", "Côte d'Ivoire", "🇨🇮", "Africa", "🍽️"],
+  ["Mandazi", "Kenya", "🇰🇪", "Africa", "🍪"],
+  ["Kenyan Chapati", "Kenya", "🇰🇪", "Africa", "🫓"],
+  ["Mukimo", "Kenya", "🇰🇪", "Africa", "🍽️"],
+  ["Swahili Pilau", "Kenya", "🇰🇪", "Africa", "🍚"],
+  ["Samaki wa Kupaka", "Kenya", "🇰🇪", "Africa", "🐟"],
+  ["Chipsi Mayai", "Tanzania", "🇹🇿", "Africa", "🍳"],
+  ["Urojo", "Tanzania", "🇹🇿", "Africa", "🍽️"],
+  ["Ndizi Nyama", "Tanzania", "🇹🇿", "Africa", "🍠"],
+  ["Mchuzi wa Samaki", "Tanzania", "🇹🇿", "Africa", "🐟"],
+  ["Matooke", "Uganda", "🇺🇬", "Africa", "🍌"],
+  ["Katogo", "Uganda", "🇺🇬", "Africa", "🍌"],
+  ["Malewa", "Uganda", "🇺🇬", "Africa", "🫘"],
+  ["Brochettes", "Rwanda", "🇷🇼", "Africa", "🍢"],
+  ["Mizuzu", "Rwanda", "🇷🇼", "Africa", "🍌"],
+  ["Shiro", "Ethiopia", "🇪🇹", "Africa", "🫘"],
+  ["Firfir", "Ethiopia", "🇪🇹", "Africa", "🍽️"],
+  ["Genfo", "Ethiopia", "🇪🇹", "Africa", "🍽️"],
+  ["Misir Wot", "Ethiopia", "🇪🇹", "Africa", "🍛"],
+  ["Gored Gored", "Ethiopia", "🇪🇹", "Africa", "🥩"],
+  ["Beyaynetu", "Ethiopia", "🇪🇹", "Africa", "🍽️"],
+  ["Tsebhi", "Eritrea", "🇪🇷", "Africa", "🍽️"],
+  ["Bariis Iskukaris", "Somalia", "🇸🇴", "Africa", "🍚"],
+  ["Sambuusa", "Somalia", "🇸🇴", "Africa", "🥟"],
+  ["Muufo", "Somalia", "🇸🇴", "Africa", "🫓"],
+  ["Halwo", "Somalia", "🇸🇴", "Africa", "🍮"],
+  ["Suqaar", "Somalia", "🇸🇴", "Africa", "🥩"],
+  ["Fah-fah", "Djibouti", "🇩🇯", "Africa", "🍽️"],
+  ["Lahoh", "Djibouti", "🇩🇯", "Africa", "🫓"],
+  ["Kawari", "Sudan", "🇸🇩", "Africa", "🍽️"],
+  ["Gurasa", "Sudan", "🇸🇩", "Africa", "🫓"],
+  ["Mullah", "Sudan", "🇸🇩", "Africa", "🍽️"],
+  ["Shorba Libiya", "Libya", "🇱🇾", "Africa", "🍲"],
+  ["Usban", "Libya", "🇱🇾", "Africa", "🍖"],
+  ["Mbakbaka", "Libya", "🇱🇾", "Africa", "🫘"],
+  ["Ojja", "Tunisia", "🇹🇳", "Africa", "🍳"],
+  ["Tajine Tunisien", "Tunisia", "🇹🇳", "Africa", "🍲"],
+  ["Bambalouni", "Tunisia", "🇹🇳", "Africa", "🍪"],
+  ["Makroudh", "Tunisia", "🇹🇳", "Africa", "🍪"],
+  ["Chorba Frik", "Algeria", "🇩🇿", "Africa", "🍲"],
+  ["Mhajeb", "Algeria", "🇩🇿", "Africa", "🍽️"],
+  ["Berkoukes", "Algeria", "🇩🇿", "Africa", "🍽️"],
+  ["Karantika", "Algeria", "🇩🇿", "Africa", "🍽️"],
+  ["Kefta Tagine", "Morocco", "🇲🇦", "Africa", "🍲"],
+  ["Bissara", "Morocco", "🇲🇦", "Africa", "🍽️"],
+  ["Chebakia", "Morocco", "🇲🇦", "Africa", "🍪"],
+  ["Briouats", "Morocco", "🇲🇦", "Africa", "🥟"],
+  ["Tanjia", "Morocco", "🇲🇦", "Africa", "🍲"],
+  ["Rfissa", "Morocco", "🇲🇦", "Africa", "🍽️"],
+  ["Zaalouk", "Morocco", "🇲🇦", "Africa", "🍽️"],
+  ["Méchoui", "Mauritania", "🇲🇷", "Africa", "🍽️"],
+  ["Tô", "Mali", "🇲🇱", "Africa", "🌽"],
+  ["Fakoye", "Mali", "🇲🇱", "Africa", "🐟"],
+  ["Babenda", "Burkina Faso", "🇧🇫", "Africa", "🍽️"],
+  ["Poulet Bicyclette", "Burkina Faso", "🇧🇫", "Africa", "🍗"],
+  ["Dambou", "Niger", "🇳🇪", "Africa", "🍽️"],
+  ["Kilishi", "Niger", "🇳🇪", "Africa", "🐟"],
+  ["Boule", "Chad", "🇹🇩", "Africa", "🌽"],
+  ["Daraba", "Chad", "🇹🇩", "Africa", "🍽️"],
+  ["Gozo", "Central African Republic", "🇨🇫", "Africa", "🌽"],
+  ["Kanda", "Central African Republic", "🇨🇫", "Africa", "🍽️"],
+  ["Eru", "Cameroon", "🇨🇲", "Africa", "🥬"],
+  ["Koki", "Cameroon", "🇨🇲", "Africa", "🍽️"],
+  ["Poulet DG", "Cameroon", "🇨🇲", "Africa", "🍗"],
+  ["Kondre", "Cameroon", "🇨🇲", "Africa", "🍽️"],
+  ["Sanga", "Cameroon", "🇨🇲", "Africa", "🍽️"],
+  ["Atanga", "Gabon", "🇬🇦", "Africa", "🍽️"],
+  ["Liboké", "Republic of the Congo", "🇨🇬", "Africa", "🍽️"],
+  ["Fumbwa", "DR Congo", "🇨🇩", "Africa", "🥬"],
+  ["Pondu", "DR Congo", "🇨🇩", "Africa", "🥬"],
+  ["Chikwangue", "DR Congo", "🇨🇩", "Africa", "🌽"],
+  ["Makayabu", "DR Congo", "🇨🇩", "Africa", "🐟"],
+  ["Funge", "Angola", "🇦🇴", "Africa", "🌽"],
+  ["Mufete", "Angola", "🇦🇴", "Africa", "🍽️"],
+  ["Ifisashi", "Zambia", "🇿🇲", "Africa", "🥬"],
+  ["Kapenta", "Zambia", "🇿🇲", "Africa", "🐟"],
+  ["Chikanda", "Zambia", "🇿🇲", "Africa", "🐟"],
+  ["Muriwo Unedovi", "Zimbabwe", "🇿🇼", "Africa", "🥬"],
+  ["Dovi", "Zimbabwe", "🇿🇼", "Africa", "🍽️"],
+  ["Mopane Worms", "Zimbabwe", "🇿🇼", "Africa", "🍽️"],
+  ["Kondowole", "Malawi", "🇲🇼", "Africa", "🌽"],
+  ["Thobwa", "Malawi", "🇲🇼", "Africa", "🍮"],
+  ["Bogobe", "Botswana", "🇧🇼", "Africa", "🌽"],
+  ["Morogo", "Botswana", "🇧🇼", "Africa", "🥗"],
+  ["Oshifima", "Namibia", "🇳🇦", "Africa", "🌽"],
+  ["Potjiekos", "South Africa", "🇿🇦", "Africa", "🍲"],
+  ["Pap en Vleis", "South Africa", "🇿🇦", "Africa", "🥩"],
+  ["Vetkoek", "South Africa", "🇿🇦", "Africa", "🫓"],
+  ["Koeksister", "South Africa", "🇿🇦", "Africa", "🍪"],
+  ["Sosaties", "South Africa", "🇿🇦", "Africa", "🍢"],
+  ["Melktert", "South Africa", "🇿🇦", "Africa", "🍽️"],
+  ["Samp and Beans", "South Africa", "🇿🇦", "Africa", "🫘"],
+  ["Bredie", "South Africa", "🇿🇦", "Africa", "🥩"],
+  ["Papa", "Lesotho", "🇱🇸", "Africa", "🥔"],
+  ["Moroho", "Lesotho", "🇱🇸", "Africa", "🍽️"],
+  ["Likhobe", "Lesotho", "🇱🇸", "Africa", "🍽️"],
+  ["Sishwala", "Eswatini", "🇸🇿", "Africa", "🌽"],
+  ["Umncweba", "Eswatini", "🇸🇿", "Africa", "🌽"],
+  ["Emasi", "Eswatini", "🇸🇿", "Africa", "🍽️"],
+  ["Galinha à Zambeziana", "Mozambique", "🇲🇿", "Africa", "🍗"],
+  ["Xima", "Mozambique", "🇲🇿", "Africa", "🌽"],
+  ["Caril de Camarão", "Mozambique", "🇲🇿", "Africa", "🦐"],
+  ["Rissóis", "Mozambique", "🇲🇿", "Africa", "🥟"],
+  ["Ravitoto", "Madagascar", "🇲🇬", "Africa", "🥬"],
+  ["Mofo Gasy", "Madagascar", "🇲🇬", "Africa", "🫓"],
+  ["Akoho sy Voanio", "Madagascar", "🇲🇬", "Africa", "🍗"],
+  ["Koba", "Madagascar", "🇲🇬", "Africa", "🍽️"],
+  ["Gateau Piment", "Mauritius", "🇲🇺", "Africa", "☕"],
+  ["Rougaille", "Mauritius", "🇲🇺", "Africa", "🍽️"],
+  ["Boulettes", "Mauritius", "🇲🇺", "Africa", "🌽"],
+  ["Mine Frit", "Mauritius", "🇲🇺", "Africa", "🍽️"],
+  ["Ladob", "Seychelles", "🇸🇨", "Africa", "🍽️"],
+  ["Shark Chutney", "Seychelles", "🇸🇨", "Africa", "🐟"],
+  ["Langouste à la Vanille", "Comoros", "🇰🇲", "Africa", "🦐"],
+  ["Mataba", "Comoros", "🇰🇲", "Africa", "🍽️"],
+  ["Pastel com Diabo Dentro", "Cape Verde", "🇨🇻", "Africa", "🥟"],
+  ["Xerém", "Cape Verde", "🇨🇻", "Africa", "🍽️"],
+  ["Molho no Fogo", "São Tomé and Príncipe", "🇸🇹", "Africa", "🍽️"],
+  ["Succotash", "Equatorial Guinea", "🇬🇶", "Africa", "🐟"],
+  ["Pepesoup", "Equatorial Guinea", "🇬🇶", "Africa", "🍲"],
+  ["Caldo de Mancarra", "Guinea-Bissau", "🇬🇼", "Africa", "🍲"],
+  ["Caldo de Chabéu", "Guinea-Bissau", "🇬🇼", "Africa", "🍲"],
+  ["Benachin", "Gambia", "🇬🇲", "Africa", "🍚"],
+  ["Superkanja", "Gambia", "🇬🇲", "Africa", "🥜"],
+  ["Kanya", "Sierra Leone", "🇸🇱", "Africa", "🍽️"],
+  ["Dumboy", "Liberia", "🇱🇷", "Africa", "🌽"],
+  ["Liberian Rice Bread", "Liberia", "🇱🇷", "Africa", "🍚"],
+  ["Torbogee", "Liberia", "🇱🇷", "Africa", "🍽️"],
+  ["Akoumé", "Togo", "🇹🇬", "Africa", "🍽️"],
+  ["Gboma Dessi", "Togo", "🇹🇬", "Africa", "🍽️"],
+  ["Koklo Meme", "Togo", "🇹🇬", "Africa", "🍽️"],
+  ["Kuli Kuli", "Benin", "🇧🇯", "Africa", "🥜"],
+  ["Gari Foto", "Benin", "🇧🇯", "Africa", "🍠"],
+  ["Wagasi", "Benin", "🇧🇯", "Africa", "🍽️"],
+  ["Ibiharage", "Burundi", "🇧🇮", "Africa", "🫘"],
+  ["Mukeke", "Burundi", "🇧🇮", "Africa", "🐟"],
+  ["Asida", "South Sudan", "🇸🇸", "Africa", "🍽️"],
+  ["Kajaik", "South Sudan", "🇸🇸", "Africa", "🍽️"],
+  ["Chicken Parma", "Australia", "🇦🇺", "Oceania", "🍗"],
+  ["Fairy Bread", "Australia", "🇦🇺", "Oceania", "🫓"],
+  ["Damper", "Australia", "🇦🇺", "Oceania", "🫓"],
+  ["Flat White", "Australia", "🇦🇺", "Oceania", "☕"],
+  ["Smashed Avocado Toast", "Australia", "🇦🇺", "Oceania", "🍞"],
+  ["Kangaroo Steak", "Australia", "🇦🇺", "Oceania", "☕"],
+  ["Pāua Fritters", "New Zealand", "🇳🇿", "Oceania", "🍽️"],
+  ["Afghan Biscuit", "New Zealand", "🇳🇿", "Oceania", "🍪"],
+  ["Mince and Cheese Pie", "New Zealand", "🇳🇿", "Oceania", "🥧"],
+  ["Kūmara Chips", "New Zealand", "🇳🇿", "Oceania", "🥔"],
+  ["Rourou", "Fiji", "🇫🇯", "Oceania", "🥬"],
+  ["Fiji Indian Curry", "Fiji", "🇫🇯", "Oceania", "🍛"],
+  ["Cassava Cake", "Fiji", "🇫🇯", "Oceania", "🍰"],
+  ["Sapasui", "Samoa", "🇼🇸", "Oceania", "🍽️"],
+  ["Pani Popo", "Samoa", "🇼🇸", "Oceania", "🍪"],
+  ["Fa'ausi", "Samoa", "🇼🇸", "Oceania", "🍽️"],
+  ["Faikakai", "Tonga", "🇹🇴", "Oceania", "🍠"],
+  ["Lu Sipi", "Tonga", "🇹🇴", "Oceania", "🍖"],
+  ["Simboro", "Vanuatu", "🇻🇺", "Oceania", "🍠"],
+  ["Tuluk", "Vanuatu", "🇻🇺", "Oceania", "🍠"],
+  ["Saksak", "Papua New Guinea", "🇵🇬", "Oceania", "🍠"],
+  ["Kaukau", "Papua New Guinea", "🇵🇬", "Oceania", "🍠"],
+  ["Poi", "Solomon Islands", "🇸🇧", "Oceania", "🍽️"],
+  ["Slippery Cabbage Soup", "Solomon Islands", "🇸🇧", "Oceania", "🍲"],
+  ["Babai", "Kiribati", "🇰🇮", "Oceania", "🍠"],
+  ["Pulaka", "Tuvalu", "🇹🇻", "Oceania", "🍠"],
+  ["Fekei", "Tuvalu", "🇹🇻", "Oceania", "🍠"],
+  ["Nauruan Coconut Fish", "Nauru", "🇳🇷", "Oceania", "🐟"],
+  ["Bwiro", "Marshall Islands", "🇲🇭", "Oceania", "🍠"],
+  ["Sakau", "Micronesia", "🇫🇲", "Oceania", "☕"],
+  ["Fruit Bat Soup", "Palau", "🇵🇼", "Oceania", "🍲"]
+].map(([name,country,flag,region,icon])=>({id:name.toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g,"-"),name,country,flag,region,icon}));
+
+/* Demo seed claims. In production, load these from the contract / indexer. */
+const SEED = {};
+
+const COUNTRIES = [...new Map(DISHES.map(d=>[d.country,d.flag])).entries()].sort((a,b)=>a[0].localeCompare(b[0]));
+const $ = s => document.querySelector(s);
+let claims = {...SEED}, country = "All", show = "all", wallet = null, current = null;
+try{ claims = {...claims,...JSON.parse(localStorage.getItem("foodfi-claims")||"{}")}; }catch(e){}
+function saveClaims(){ try{ const own={}; for(const k in claims) if(!SEED[k]) own[k]=claims[k]; localStorage.setItem("foodfi-claims",JSON.stringify(own)); }catch(e){} }
+const esc = t => String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function defaultTicker(name){ const w=name.normalize("NFD").toUpperCase().replace(/[^A-Z0-9 ]/g,"").split(" ").filter(Boolean); return (w.length>1? w.map(x=>x.slice(0,2)).join("") : w[0].replace(/[AEIOU]/g,"")).slice(0,6) || w[0].slice(0,5); }
+
+/* hero */
+const ORBIT = ["ramen","tacos","sushi","rendang","pizza-margherita","xiaolongbao","biryani","croissant","hamburger","pho"];
+function renderOrbit(){
+  const ds = ORBIT.map(id=>DISHES.find(d=>d.id===id)).filter(Boolean);
+  $("#orbit").innerHTML = ds.map((d,i)=>`<span style="--a:${i*360/ds.length}deg" data-img="${d.id}" title="${esc(d.name)}">${imgHtml(d)}</span>`).join("");
+  watchImages($("#orbit"));
+}
+function pickSpecial(){
+  const open = DISHES.filter(d=>!claims[d.id]); const d = open[Math.floor(Math.random()*open.length)];
+  $("#special").innerHTML = `<span class="em" data-img="${d.id}">${imgHtml(d)}</span><span><small>Today's special · open</small><b>${d.name}</b><small>${d.flag} ${d.country}</small></span>`;
+  $("#special").dataset.id = d.id; watchImages($("#special")); return d;
+}
+
+function renderCountries(){
+  $("#country").innerHTML = `<option value="All">🌍 All countries (${COUNTRIES.length})</option>` + COUNTRIES.map(([c,f])=>`<option value="${esc(c)}">${f} ${esc(c)}</option>`).join("");
+}
+function renderClaimed(){
+  const list = Object.entries(claims).reverse().slice(0,12);
+  $("#claimedStrip").hidden = !list.length;
+  setTimeout(()=>watchImages($("#claimedStrip")));
+  $("#claimedStrip").innerHTML = `<span class="lbl">Recently claimed</span>` + list.map(([id,c])=>{ const d=DISHES.find(x=>x.id===id); return d?`<button class="tok" data-id="${id}"><i data-img="${d.id}">${imgHtml(d)}</i><b>$${esc(c.ticker)}</b>${esc(d.name)}</button>`:""; }).join("");
+}
+/* Dish icons (emoji) */
+function imgHtml(d){ return d.icon; }
+function watchImages(){}
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  const list = DISHES.filter(d => (country==="All"||d.country===country)
+    && (!q || (d.name+" "+d.country).toLowerCase().includes(q))
+    && (show==="all" || (show==="open") === !claims[d.id]));
+  const groups = COUNTRIES.map(([c,f])=>[c,f,list.filter(d=>d.country===c)]).filter(g=>g[2].length);
+  let last = "";
+  $("#board").innerHTML = groups.length ? groups.map(([c,f,l])=>{
+    const total = DISHES.filter(d=>d.country===c).length, taken = DISHES.filter(d=>d.country===c&&claims[d.id]).length;
+    const L = c.normalize("NFD")[0].toUpperCase(), head = L!==last ? `<div class="letter" id="L-${L}">${L}</div>` : ""; last = L;
+    return `${head}<section class="country"><div class="ch"><span class="flag">${f}</span><div><h2>${esc(c)}</h2><small>${total} ${total>1?"dishes":"dish"} · ${taken} claimed</small></div></div><div class="tiles">${l.map(d=>{
+      const k=claims[d.id];
+      return `<button class="dish" data-id="${d.id}"><span class="plate" aria-hidden="true" data-img="${d.id}">${imgHtml(d)}</span><span class="dname">${esc(d.name)}</span><span class="pill ${k?"taken":"open"}">${k?"$"+esc(k.ticker):"Claim"}</span></button>`}).join("")}</div></section>`}).join("")
+    : `<p class="empty">No dishes match your search. Try another name or choose "All countries".</p>`;
+  const have = new Set(groups.map(g=>g[0].normalize("NFD")[0].toUpperCase()));
+  $("#az").innerHTML = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(L=>`<a href="#L-${L}" class="${have.has(L)?"":"off"}">${L}</a>`).join("");
+  watchImages($("#board"));
+  $("#tTotal").textContent = DISHES.length;
+  $("#tTaken").textContent = Object.keys(claims).length;
+  $("#tCountries").textContent = COUNTRIES.length;
+}
+
+function openDish(id){
+  current = DISHES.find(d=>d.id===id); const c = claims[id];
+  $("#dName").textContent = current.name;
+  $("#dOrigin").textContent = `${current.flag} ${current.country}`;
+  $("#dPlate").innerHTML = imgHtml(current); $("#dPlate").dataset.img = current.id; watchImages(document.getElementById("dPlate").parentNode);
+  $("#dForm").hidden = !!c; $("#dTaken").hidden = !c;
+  if(c){ $("#dTicker").textContent="$"+c.ticker; $("#dOwner").textContent = c.owner===wallet ? "you" : c.owner; $("#dLorePrev").textContent=c.lore||"No lore yet."; }
+  else { const t=defaultTicker(current.name); $("#fTicker").value=t; $("#dTicker").textContent="$"+t; loreAuto=true; loreIdx=Math.floor(Math.random()*LORE.length); fillLore(); updateLaunchBtn(); }
+  $("#sheet").showModal();
+}
+/* ====== AUTO LORE: edit or add templates here ======
+   {name} {country} {ticker} {bite} are filled in automatically. */
+const BITE = {"🍲":"every warm bowl","🍜":"every slurp","🍛":"every spoonful","🍚":"every grain","🍰":"every sweet slice","🍮":"every sweet spoonful","🍪":"every crumb","🥧":"every flaky slice","🥟":"every dumpling","🍗":"every crispy bite","🐟":"every catch","🦐":"every catch","🥗":"every fresh forkful","🫓":"every torn piece","🥞":"every stack","🍢":"every skewer","🌭":"every link","🍖":"every slow-cooked bite","🥩":"every sizzle","🐖":"every crackling bite","🌮":"every fold","🌯":"every wrap","🍕":"every slice","🧀":"every cheesy pull","☕":"every sip","🧋":"every sip","🍳":"every sunny-side morning","🥔":"every golden bite","🌽":"every handful","🍌":"every caramelised bite","🫘":"every hearty scoop","🥬":"every green spoonful","🍠":"every earthy bite","🥜":"every nutty spoonful","🍞":"every slice","🍝":"every twirl","🍣":"every piece","🍔":"every bite"};
+const LORE = [
+  "Born in {country}, {name} has fed generations. Now it gets its own token: ${ticker}.",
+  "From the kitchens of {country} straight to Robinhood Chain. ${ticker} is {name}, served on-chain.",
+  "{name} is {country}'s gift to the world's table. One dish, one token, forever on-chain.",
+  "Grandma's recipe, now with a ticker. ${ticker} brings {name} from {country} to the blockchain.",
+  "No reservations needed. {name} from {country} is plated and ready to trade as ${ticker}.",
+  "In {country}, {bite} of {name} tells a story. ${ticker} lets the whole world taste it.",
+  "Hungry holders only. ${ticker} is {name}, straight out of {country}.",
+  "Some dishes are food. {name} is a memory of {country}. ${ticker} keeps it on-chain.",
+  "Ask anyone from {country} about {name} and watch them smile. That is ${ticker}.",
+  "{bite} counts. ${ticker} is the one and only token for {name} from {country}."
+];
+let loreAuto = true, loreIdx = 0;
+function makeLore(d, ticker, idx){
+  const bite = BITE[d.icon] || "every bite";
+  let t = LORE[idx % LORE.length].replace(/\{name\}/g,d.name).replace(/\{country\}/g,d.country).replace(/\{ticker\}/g,ticker||"…").replace(/\{bite\}/g,bite);
+  return t.charAt(0).toUpperCase()+t.slice(1);
+}
+function fillLore(){
+  const v = makeLore(current, $("#fTicker").value, loreIdx);
+  $("#fLore").value = v; $("#dLorePrev").textContent = v;
+}
+function updateLaunchBtn(){ $("#fLaunch").disabled=!/^[A-Z0-9]{2,8}$/.test($("#fTicker").value); $("#fLaunch").textContent = wallet ? "Launch token" : "Connect wallet first"; }
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.style.display="block"; clearTimeout(t._h); t._h=setTimeout(()=>t.style.display="none",2600); }
+
+/* ====== ON-CHAIN INTEGRATION (fill in yourself) ======
+   connectWallet(): use a wallet library (e.g. viem / ethers via a UMD script tag) and
+   ask the wallet to switch to Robinhood Chain.
+   launchToken(): call the launchpad factory contract (e.g. Pons) with name, ticker,
+   logo (dish icon) and lore. Return the token address. */
+async function connectWallet(){ return "0xDEMO…" + Math.random().toString(16).slice(2,6); }
+async function launchToken({dish,ticker,lore}){ await new Promise(r=>setTimeout(r,700)); return {ok:true}; }
+
+/* ====== PROFILE ====== */
+let ptab = "mine";
+const shortAddr = a => a.length > 14 ? a.slice(0,6) + "…" + a.slice(-4) : a;
+function avatarSvg(addr){
+  let h = 0; for(const c of addr) h = (h*31 + c.charCodeAt(0)) >>> 0;
+  const hue = h % 360, hue2 = (hue + 50) % 360;
+  return `<svg class="avatar" viewBox="0 0 58 58" aria-hidden="true"><defs><linearGradient id="g${h}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${hue} 70% 55%)"/><stop offset="1" stop-color="hsl(${hue2} 75% 40%)"/></linearGradient></defs><circle cx="29" cy="29" r="29" fill="url(#g${h})"/><circle cx="${18+h%22}" cy="${16+(h>>3)%24}" r="${6+(h>>6)%7}" fill="rgba(255,246,218,.35)"/></svg>`;
+}
+function myClaims(){ return wallet ? Object.entries(claims).filter(([,c])=>c.owner===wallet) : []; }
+function setWallet(w){
+  wallet = w;
+  try{ w ? localStorage.setItem("foodfi-wallet", w) : localStorage.removeItem("foodfi-wallet"); }catch(e){}
+  $("#walletBtn").textContent = w ? shortAddr(w) : "Connect wallet";
+  updateProfileBadge(); updateLaunchBtn();
+}
+function updateProfileBadge(){ const n = myClaims().length; $("#profileCount").hidden = !n; $("#profileCount").textContent = n; }
+function renderProfile(){
+  $("#pHead").innerHTML = wallet
+    ? `${avatarSvg(wallet)}<div><small>Connected wallet</small><div class="addr" id="pTitle">${esc(shortAddr(wallet))}</div></div>`
+    : `${avatarSvg("guest")}<div><small>Not connected</small><div class="addr" id="pTitle">Your profile</div></div>`;
+  const rows = ptab === "mine" ? myClaims() : Object.entries(claims);
+  rows.sort((a,b)=>(b[1].claimedAt||0)-(a[1].claimedAt||0));
+  const countries = new Set(rows.map(([id])=>(DISHES.find(d=>d.id===id)||{}).country).filter(Boolean)).size;
+  $("#pStats").innerHTML = `<div><b>${rows.length}</b>${rows.length===1?"token":"tokens"}</div><div><b>${countries}</b>${countries===1?"country":"countries"}</div>`;
+  $("#pStats").hidden = ptab==="mine" && !wallet;
+  if(ptab === "mine" && !wallet){
+    $("#pList").innerHTML = `<div class="pempty"><b>Connect your wallet</b>Connect to see the dishes you have claimed.<br><button class="btn dark" id="pConnect">Connect wallet</button></div>`;
+  } else if(!rows.length){
+    $("#pList").innerHTML = ptab === "mine"
+      ? `<div class="pempty"><b>No claims yet</b>Pick a dish from the menu and launch its token.<br><button class="btn dark" id="pSurprise">Surprise me</button></div>`
+      : `<div class="pempty"><b>Nothing claimed yet</b>Be the first to launch a dish token.</div>`;
+  } else {
+    $("#pList").innerHTML = rows.map(([id,c])=>{
+      const d = DISHES.find(x=>x.id===id); if(!d) return "";
+      const date = c.claimedAt ? new Date(c.claimedAt).toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"}) : "";
+      const by = ptab === "all" ? ` · by ${esc(c.owner===wallet ? "you" : shortAddr(c.owner))}` : "";
+      return `<button class="prow" data-id="${id}"><span class="plate" aria-hidden="true">${d.icon}</span><span class="pmain"><span class="ptk">$${esc(c.ticker)}</span> <span class="pname">${esc(d.name)}</span><div class="pmeta">${d.flag} ${esc(d.country)}${date?" · "+date:""}${by}</div>${c.lore?`<div class="plore">${esc(c.lore)}</div>`:""}</span></button>`;
+    }).join("");
+  }
+  $("#pActions").innerHTML = wallet ? `<button class="btn ghost" id="pDisconnect">Disconnect wallet</button>` : "";
+}
+function openProfile(tab){ if(tab) ptab = tab; document.querySelectorAll(".ptabs button").forEach(x=>x.setAttribute("aria-pressed", x.dataset.t===ptab)); renderProfile(); if(!$("#profile").open) $("#profile").showModal(); }
+async function doConnect(){ setWallet(await connectWallet()); toast("Wallet connected"); }
+
+$("#profileBtn").onclick = ()=>openProfile();
+$("#pClose").onclick = ()=>$("#profile").close();
+document.querySelectorAll(".ptabs button").forEach(b=>b.onclick=()=>openProfile(b.dataset.t));
+$("#profile").onclick = async e=>{
+  if(e.target.closest("#pConnect")){ await doConnect(); renderProfile(); return; }
+  if(e.target.closest("#pSurprise")){ $("#profile").close(); openDish(pickSpecial().id); return; }
+  if(e.target.closest("#pDisconnect")){ setWallet(null); toast("Wallet disconnected"); renderProfile(); return; }
+  const r = e.target.closest(".prow"); if(r){ $("#profile").close(); openDish(r.dataset.id); }
+};
+$("#walletBtn").onclick = async ()=>{
+  if(wallet){ openProfile("mine"); return; }
+  await doConnect();
+};
+$("#country").onchange = e=>{ country=e.target.value; render(); };
+$("#q").oninput = render;
+document.querySelectorAll(".toggle button").forEach(b=>b.onclick=()=>{ show=b.dataset.s; document.querySelectorAll(".toggle button").forEach(x=>x.setAttribute("aria-pressed",x===b)); render(); });
+$("#board").onclick = e=>{ const r=e.target.closest(".dish"); if(r) openDish(r.dataset.id); };
+$("#claimedStrip").onclick = e=>{ const r=e.target.closest(".tok"); if(r) openDish(r.dataset.id); };
+$("#special").onclick = ()=>openDish($("#special").dataset.id);
+$("#surprise").onclick = ()=>openDish(pickSpecial().id);
+$("#fTicker").oninput = e=>{ e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,""); $("#dTicker").textContent="$"+(e.target.value||"…"); if(loreAuto) fillLore(); updateLaunchBtn(); };
+$("#fLore").oninput = e=>{ loreAuto=false; $("#dLorePrev").textContent = e.target.value || "No lore yet."; };
+$("#fShuffle").onclick = ()=>{ loreAuto=true; loreIdx++; fillLore(); };
+$("#dClose").onclick = $("#fCancel").onclick = ()=>$("#sheet").close();
+$("#fTrade").onclick = ()=>toast("Link this to the token page on Pons");
+$("#fLaunch").onclick = async ()=>{
+  if(!wallet){ await doConnect(); return; }
+  const ticker=$("#fTicker").value, lore=$("#fLore").value.trim();
+  if(Object.values(claims).some(c=>c.ticker===ticker)){ toast(`Ticker $${ticker} is taken. Choose another one.`); return; }
+  $("#fLaunch").disabled=true; $("#fLaunch").textContent="Launching…";
+  const res = await launchToken({dish:current,ticker,lore});
+  if(res.ok){ claims[current.id]={ticker,owner:wallet,lore,claimedAt:Date.now()}; saveClaims(); $("#sheet").close(); render(); renderClaimed(); pickSpecial(); updateProfileBadge(); toast(`$${ticker} launched`); }
+  else { toast("Launch failed. Check your gas balance and try again."); updateLaunchBtn(); }
+};
+
+renderOrbit(); renderCountries(); renderClaimed(); pickSpecial(); render();
+try{ const w = localStorage.getItem("foodfi-wallet"); if(w) setWallet(w); }catch(e){}
+</script>
+</body>
+</html>
